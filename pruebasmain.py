@@ -12,7 +12,7 @@ if __name__ == '__main__':
 
 
 st.header("Go vegan?")
-st.subheader("Discover your food choices ecological impact")
+st.subheader("Discover your food choices environmental impact")
 st.text("Are you ready for some fun?")
 
 
