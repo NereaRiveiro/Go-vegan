@@ -43,7 +43,7 @@ if __name__ == '__main__':
 
 st.header("Are you aware of your impact?")
 st.subheader("Discover your food choices environmental impact")
-st.write("We´ve extracted info abaout 40 foods most tipical around the world. Let´s check some info")
+st.write("We´ve extracted info about the 40 foods most tipical around the world. Let´s check some info")
 
 
 # Gráfico de todas las food
@@ -84,8 +84,8 @@ st.write("You´ve chosen", opcion)
 
 if opcion == 'Soy':
 
-    st.write("Fun fact: There are health benefits to soy, which include providing a good source of heart-healthy fats, fiber, potassium and iron.")
-    st.write("But not everything is sunshine and rainbows. Soy is one of the main causes of deforestation in South America. But, what for is destined the soybean production?")
+    st.write("**Fun fact**: There are health benefits to soy, which include providing a good source of *heart-healthy fats*, *fiber*, *potassium* and *iron*.")
+    st.write("But not everything is sunshine 🌞 and rainbows 🌈. Soy is one of the main causes of deforestation in South America. But, what for is destined the soybean production?")
 
     # Comparative graphic between soybeans for food, feed or processed
     df = soy[soy['Year'].dt.year >= 2000]
@@ -107,7 +107,7 @@ if opcion == 'Soy':
     # Show
     st.plotly_chart(fig)
 
-    st.write("Wow! It´s surprising the difference between them. Some examples from what soy can be processed are soy oil and soybean cake for basic animal feed protein")
+    st.write("Wow! The difference between them are surprising. Some examples from what soy can be processed are soy oil and soybean cake for basic animal feed protein")
 
     st.write("Where are these macroharvest?")
     # Graphic: hectares by country
@@ -168,15 +168,55 @@ if opcion == 'Soy':
         soymilk_choice = st.selectbox("how often do you have it?", ["Once a day", "1-2 times a week", "Never"])
         if soymilk_choice == "Once a day":
             soy_milk_emissions = fod[fod['Entity'] == 'Soy milk']
-
-            # Calcular el total de las emisiones de 200g
+            # Total emisions of 200g by day
             total_emissions = soy_milk_emissions[['food_emissions_land_use', 'food_emissions_farm', 'food_emissions_animal_feed',
                                                 'food_emissions_processing', 'food_emissions_transport', 'food_emissions_retail',
                                                 'food_emissions_packaging', 'food_emissions_losses']].sum().sum() * 0.2
             # Result
             st.write("Total emisions of Soy milk by year", total_emissions.round(2)* 365)
+        if soymilk_choice == "1-2 times a week":
+            soy_milk_emissions = fod[fod['Entity'] == 'Soy milk']
+            # Total emisions of 200g by1,5 days week
+            total_emissions = soy_milk_emissions[['food_emissions_land_use', 'food_emissions_farm', 'food_emissions_animal_feed',
+                                                'food_emissions_processing', 'food_emissions_transport', 'food_emissions_retail',
+                                                'food_emissions_packaging', 'food_emissions_losses']].sum().sum() * 0.2
+            # Result
+            st.write("Total emisions of Soy milk by year", total_emissions.round(2)* 78)
+        if soymilk_choice == "Never":
+            soy_milk_emissions = fod[fod['Entity'] == 'Soy milk']
+            # Total emisions of 42kg by year, global mean
+            total_emissions = soy_milk_emissions[['food_emissions_land_use', 'food_emissions_farm', 'food_emissions_animal_feed',
+                                                'food_emissions_processing', 'food_emissions_transport', 'food_emissions_retail',
+                                                'food_emissions_packaging', 'food_emissions_losses']].sum().sum()
+            # Result
+            st.write("Total emisions of Soy milk by year", total_emissions.round(2)* 42)
 
-
+    if soy_choice == 'Tofu':
+        soymilk_choice = st.selectbox("how often do you have it?", ["Once a day", "1-2 times a week", "Never"])
+        if soymilk_choice == "Once a day":
+            soy_milk_emissions = fod[fod['Entity'] == 'Tofu']
+            # Total emisions of 150g by day
+            total_emissions = soy_milk_emissions[['food_emissions_land_use', 'food_emissions_farm', 'food_emissions_animal_feed',
+                                                'food_emissions_processing', 'food_emissions_transport', 'food_emissions_retail',
+                                                'food_emissions_packaging', 'food_emissions_losses']].sum().sum() * 0.15
+            # Result
+            st.write("Total emisions of tofu by year", total_emissions.round(2)* 365)
+        if soymilk_choice == "1-2 times a week":
+            soy_milk_emissions = fod[fod['Entity'] == 'Tofu']
+            # Total emisions of 150g by 1,5 days week
+            total_emissions = soy_milk_emissions[['food_emissions_land_use', 'food_emissions_farm', 'food_emissions_animal_feed',
+                                                'food_emissions_processing', 'food_emissions_transport', 'food_emissions_retail',
+                                                'food_emissions_packaging', 'food_emissions_losses']].sum().sum() * 0.15
+            # Result
+            st.write("Total emisions of tofu by year", total_emissions.round(2)* 78)
+        if soymilk_choice == "Never":
+            soy_milk_emissions = fod[fod['Entity'] == 'Tofu']
+            # Total emisions of 60kg by year, global mean
+            total_emissions = soy_milk_emissions[['food_emissions_land_use', 'food_emissions_farm', 'food_emissions_animal_feed',
+                                                'food_emissions_processing', 'food_emissions_transport', 'food_emissions_retail',
+                                                'food_emissions_packaging', 'food_emissions_losses']].sum().sum()
+            # Result
+            st.write("Total emisions of tofu by year", total_emissions.round(2)* 60)
 
 if st.button("Click here!"):
     st.write("¡Presionaste el botón!")
