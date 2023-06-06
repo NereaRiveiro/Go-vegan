@@ -33,41 +33,7 @@ palette = ['#6a863b', '#68c843', '#f39f18']
 # Configuración del color de fondo
 with open('style.css') as f:
     st.markdown(
-        """
-    <style>
-    .reportview-container .markdown-text-container {
-        font-family: monospace;
-    }
-    .sidebar .sidebar-content {
-        background-image: linear-gradient(#2e7bcf,#2e7bcf);
-        color: white;
-    }
-    .Widget>label {
-        color: white;
-        font-family: monospace;
-    }
-    [class^="st-b"]  {
-        color: white;
-        font-family: monospace;
-    }
-    .st-bb {
-        background-color: transparent;
-    }
-    .st-at {
-        background-color: #0c0080;
-    }
-    footer {
-        font-family: monospace;
-    }
-    .reportview-container .main footer, .reportview-container .main footer a {
-        color: #0c0080;
-    }
-    header .decoration {
-        background-image: none;
-    }
-
-    </style>
-    """,
+        f"<style>{f.read()}</style>",
         unsafe_allow_html=True,
     )
 
@@ -310,7 +276,7 @@ if opcion == 'Soy':
                 yanchor='bottom'
             )
         ]
-    )ss
+    )
     # Animation photograms
     frames = []
     colors = sns.color_palette('pastel')  # Colores de la paleta 'pastel' de Seaborn
