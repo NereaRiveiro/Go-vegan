@@ -4,6 +4,8 @@ from notebook.funciones import *
 import pandas as pd
 import numpy as np
 import math
+from itertools import cycle
+
 pd.options.plotting.backend = "plotly"
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -16,11 +18,11 @@ from matplotlib.animation import FuncAnimation
 st.set_page_config(page_title="Go vegan?", page_icon=":avocado:", layout="wide", initial_sidebar_state="expanded")
 
 
-fod = pd.read_csv(r'Go-vegan-\data\Food\food_clean.csv')
-soy = pd.read_csv(r'Go-vegan-\data\Soy\soy_clean.csv', parse_dates=['Year'])
-oil_prod = pd.read_csv(r'Go-vegan-\data/Palm/oil_prod_clean.csv')
-oil_yield = pd.read_csv(r'Go-vegan-\data/Palm/oil_yield_clean.csv')
-pop = pd.read_csv(r'Go-vegan-\data/Population/population_clean.csv')
+fod = pd.read_csv(r'.\data\Food\food_clean.csv')
+soy = pd.read_csv(r'.\data\Soy\soy_clean.csv', parse_dates=['Year'])
+oil_prod = pd.read_csv(r'.\data/Palm/oil_prod_clean.csv')
+oil_yield = pd.read_csv(r'.\data/Palm/oil_yield_clean.csv')
+pop = pd.read_csv(r'.\data/Population/population_clean.csv')
 
 # filtro para sacar lista de sólo paises
 todos = soy['Entity'].value_counts().index.to_list()
@@ -82,35 +84,110 @@ st.write("We´ve extracted info about the 40 foods most tipical around the world
 
 
 # Gráfico de todas las food
+# Cálculo de las emisiones totales de comida
 fod['Total_Food_Emissions'] = fod.iloc[:, 2:9].sum(axis=1)
 
+# Ordenar el DataFrame por las emisiones totales
 df_sorted = fod.sort_values('Total_Food_Emissions', ascending=True)
 
-colors = sns.color_palette('pastel')
+# Lista de colores
+n_colors = 43  # Número deseado de colores
+# palette = sns.color_palette("bright", n_colors)
+palette = ["#FF5722", "#AED581", "#D0ECE7", "#9CCC65", "#C5E1A5", "#FFAB91", "#FFE0B2",  
+           "#DCEDC8", "#FF8A65", "#FFCCBC", "#7CB342", "#DCE775", "#FF7043", "#FFAB40", 
+           "#689F38", "#D4E157", "#FF5722", "#558B2F", "#CDDC39", "#E64A19", "#8BC34A",
+           "#FF6E40", "#33691E", "#AFB42B", "#BF360C", "#FF3D00", "#827717", "#C0CA33", 
+           "#FFAB00", "#827717", "#AFB42B", "#BF360C", "#FF3D00", "#827717", "#C0CA33", 
+           "#FFAB00", "#795548", "#A1887F", "#3E2723", "#795548", "#A1887F", "#3E2723", "#3E2723"]
 
-# Gráfico de barras horizontales
-fig = go.Figure(data=go.Bar(
-    x=df_sorted['Total_Food_Emissions'],
-    y=df_sorted['Entity'],
-    orientation='h',
-    marker=dict(color=colors)
-))
 
+# Crear la figura
+fig = go.Figure()
+
+# Crear una lista de barras utilizando go.Bar para cada entidad
+data = []
+for i, row in df_sorted.iterrows():
+    entity = row['Entity']
+    bar = go.Bar(
+        x=[row['Total_Food_Emissions']],
+        y=[entity],
+        orientation='h',
+        visible=True,
+        marker=dict(color=palette[i]),
+        name=entity  # Asignar el nombre de la entidad a la barra
+    )
+    fig.add_trace(bar)
+    
+
+
+
+# Configuración del diseño del gráfico
 fig.update_layout(
-    title='Global CO emisions by food',
-    xaxis_title='Total emisions',
-    yaxis_title='Food',
-    legend=dict(x=1.02, y=1),
+    title='Global CO emissions by food',
+    xaxis=dict(
+        title='Total emissions',
+        title_font=dict(color='#59412f')),
+    yaxis=dict(
+        title='Food',
+        title_font=dict(color='#59412f')),
+    legend=dict(x=1.02, y=1,
+                title_font=dict(color='#59412f'),
+                font=dict(color='#59412f')),
     height=500,
-    width=800
+    width=800,
+    updatemenus=[
+        dict(
+            buttons=list([
+                dict(
+                    args=[{"visible": [True if x else False for x in df_sorted['Animal_origin']]}],
+                    label="Animal Origin",
+                    method="update"
+                ),
+                dict(
+                    args=[{"visible": [True if not x else False for x in df_sorted['Animal_origin']]}],
+                    label="Vegetable Origin",
+                    method="update"
+                ),
+                dict(
+                    args=[{"visible": [True] * len(df_sorted)}],
+                    label="All Entities",
+                    method="update"
+                )
+            ]),
+            direction="down",
+            pad={"r": 10, "t": 10},
+            showactive=True,
+            x=0.7,
+            xanchor="left",
+            y=1.2,
+            yanchor="top",
+            bgcolor="#6a863b",
+            active=2,
+            font=dict(color='#F5F5DC')
+        
+        ),
+    ]
 )
 
-st.plotly_chart(fig)
+# Ordenar las barras en el eje Y
+fig.update_yaxes(
+    tickfont=dict(color='#6C584C'),
+    type='category',
+    categoryorder='array',
+    categoryarray=df_sorted['Entity']
+)
+
+# Exe x
+fig.update_xaxes(
+    tickfont=dict(color='#7E675E')  # Cambia el color de las etiquetas del eje x a rojo
+)
+
+st.plotly_chart(fig, theme="streamlit")
 
 
 # Food specifications
 food_l = ["Take your pick!" ,"Beef", "Palm oil", "Soy"]
-opcion = st.selectbox("Which food are you interested in the most?", food_l)
+opcion = st.selectbox('Which food are you interested in the most?', food_l)
 st.write("You´ve chosen", opcion)
 
 if opcion == 'Soy':
@@ -119,28 +196,84 @@ if opcion == 'Soy':
     st.write("But not everything is sunshine 🌞 and rainbows 🌈. Soy is one of the main causes of deforestation in South America. But, what for is destined the soybean production?")
 
     # Comparative graphic between soybeans for food, feed or processed
+    # new df filtered from 2000
     df = soy[soy['Year'].dt.year >= 2000]
-    # Sum "Food", "Feed" y "Processed"
+
+    # Sum of values
     totals = df[['Food', 'Feed', 'Processed']].sum()
-    # Figure
-    fig, ax = plt.subplots()
-    x_labels = ['Food', 'Feed', 'Processed']
-    x = range(len(x_labels))
-    bars = ax.bar(x, totals)
-    # Labels in bars
-    for bar in bars:
-        height = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width() / 2, height,
-                f'{height}', ha='center', va='bottom')
-    # Labels x exe
-    ax.set_xticks(x)
-    ax.set_xticklabels(x_labels)
-    # Show
-    st.plotly_chart(fig)
+
+    # Colors and labels
+    colors = ['#FF5722', '#AED581', '#D0ECE7']
+    labels = ['Food', 'Feed', 'Processed']
+
+    # Create figure
+    fig = go.Figure()
+
+    # Crear las barras animadas
+    for i in range(len(labels)):
+        fig.add_trace(
+            go.Bar(
+                x=[labels[i]],
+                y=[0],
+                marker=dict(color=colors[i]),
+                name=labels[i],
+                hovertemplate=f'{labels[i]}: 0',
+            )
+        )
+        fig.update_traces(overwrite=True)  # Actualizar las barras en cada iteración
+        fig.update_layout(
+            updatemenus=[dict(
+                type='buttons',
+                showactive=False,
+                buttons=[dict(
+                    label='Play',
+                    method='animate',
+                    args=[None, {'frame': {'duration': 500, 'redraw': True}, 'fromcurrent': True}]
+            )]
+        )
+    ]
+)
+    # Actualizar las barras en cada fotograma de la animación
+    frames = []
+    for i in range(len(labels)):
+        frame_data = df[labels[i]].tolist()  # Obtener los datos correspondientes a la categoría actual
+        frames.append(go.Frame(data=[go.Bar(y=[frame_data[j]], hovertemplate=f'{labels[i]}: {frame_data[j]}') for j in range(len(frame_data))]))
+
+    fig.frames = frames
+
+    # Configurar el diseño del gráfico
+    fig.update_layout(
+        title='Total emissions by category',
+        xaxis=dict(
+            title='Category',
+            title_font=dict(color='#59412f')),
+        yaxis=dict(
+            title='Total emissions',
+            title_font=dict(color='#59412f'),
+            range=[0, max(totals) + max(totals) * 0.1]),
+        height=400,
+        width=600,
+        showlegend=False,
+    )
+
+    # Config exe y
+    fig.update_yaxes(
+        tickfont=dict(color='#6C584C'))
+
+    # Congif exe x
+    fig.update_xaxes(
+        tickfont=dict(color='#7E675E'))
+
+    # Mostrar el gráfico animado
+    st.plotly_chart(fig, use_container_width=True)
+
+
 
     st.write("Wow! The difference between them are surprising. Some examples from what soy can be processed are soy oil and soybean cake for basic animal feed protein")
 
     st.write("Where are these macroharvest?")
+
+
     # Graphic: hectares by country
     # Filtered for just countries
     df_filtered = soy[soy['Entity'].isin(paises)]
@@ -149,6 +282,8 @@ if opcion == 'Soy':
     # Order descendent and filter for top 5
     top_countries = grouped.groupby('Entity')['Area harvested'].sum().nlargest(5).index
     df_top_countries = grouped[grouped['Entity'].isin(top_countries)]
+
+    st.write(f'a verrrrrrrrrrrrrrrrrrrrrrrrrr', len(df_top_countries['Entity']))
     # Create interactive graphic
     fig = px.line(df_top_countries, x='Year', y='Area harvested', color='Entity',
                 labels={'Year': 'Year', 'Area harvested': 'Area harvested (hectareas)'},
@@ -160,33 +295,45 @@ if opcion == 'Soy':
             dict(
                 type='buttons',
                 buttons=[
-                    dict(label='Reproducir',
+                    dict(label='Play',
                         method='animate',
-                        args=[None, {'frame': {'duration': 1000, 'redraw': True}, 'fromcurrent': True, 'transition': {'duration': 500}}]),
-                    dict(label='Pausa',
+                        args=[None, {'frame': {'duration': 200, 'redraw': True}, 'fromcurrent': True, 'transition': {'duration': 200}}]),
+                    dict(label='Pause',
                         method='animate',
                         args=[[None], {'frame': {'duration': 0, 'redraw': False}, 'mode': 'immediate', 'transition': {'duration': 0}}])
                 ],
                 active=0,
                 showactive=True,
-                x=0.05,
+                x=0.015,
                 y=0,
                 xanchor='right',
                 yanchor='bottom'
             )
         ]
-    )
+    )ss
     # Animation photograms
     frames = []
-    for year in df_top_countries['Year'].unique():
-        frame_data = df_top_countries[df_top_countries['Year'] == year]
+    colors = sns.color_palette('pastel')  # Colores de la paleta 'pastel' de Seaborn
+    colors = [f'rgb({int(color[0] * 255)},{int(color[1] * 255)},{int(color[2] * 255)})' for color in colors]
+    for i, year in enumerate(df_top_countries['Year'].unique()):
+        frame_data = df_top_countries[df_top_countries['Year'] <= year]
         frame = go.Frame(
-            data=[go.Scatter(x=frame_data['Year'], y=frame_data['Area harvested'], mode='lines', name=country)
+            data=[go.Scatter(x=frame_data[frame_data['Entity'] == country]['Year'], 
+                            y=frame_data[frame_data['Entity'] == country]['Area harvested'], 
+                            mode='lines', 
+                            name=country,
+                            line=dict(color=colors[i]))  # Asignar color de la paleta
                 for country in top_countries],
             name=str(year)
         )
         frames.append(frame)
     fig.frames = frames
+
+    # Config axis
+    fig.update_yaxes(
+        tickfont=dict(color='#6C584C'))
+    fig.update_xaxes(
+        tickfont=dict(color='#7E675E'))
     # Show
     st.plotly_chart(fig)
 
@@ -231,7 +378,7 @@ if opcion == 'Soy':
         col1, col2 = st.columns([1, 2])
         # imagen tofu
         with col1:
-            ruta_imagen = r'Go-vegan-\images\tofua.png'
+            ruta_imagen = r'.\images\tofua.png'
             st.image(ruta_imagen, width=150, clamp=True)
 
         with col2:
