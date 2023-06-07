@@ -168,7 +168,7 @@ st.plotly_chart(fig, theme="streamlit")
 
 
 # Food specifications
-food_l = ["Take your pick!" ,"Beef", "Palm oil", "Soy"]
+food_l = ["Take your pick!" ,"Beef", "Vegetable oils", "Soy"]
 opcion = st.selectbox('Which food are you interested in the most?', food_l)
 st.write("You´ve chosen", opcion)
 
@@ -223,6 +223,7 @@ if opcion == 'Soy':
             dict(
                 type='buttons',
                 showactive=False,
+                font=dict(color='#59412f'),
                 buttons=[dict(
                     label='Play',
                     method='animate',
@@ -261,7 +262,7 @@ if opcion == 'Soy':
 
     st.write("Wow! The difference between them are surprising. Some examples from what soy can be processed are soy oil and soybean cake for basic animal feed protein")
 
-    st.write("Where are these macroharvest?")
+    st.subheader("Where are these macroharvest?")
 
 
     # Graphic: hectares by country
@@ -279,7 +280,10 @@ if opcion == 'Soy':
                 title='Evolution of hectares harvested by top 5 countries')
     # Animation
     fig.update_layout(
-        xaxis=dict(range=[df_top_countries['Year'].min(), df_top_countries['Year'].max()], autorange=False),
+        xaxis=dict(title_font=dict(color='#59412f'),
+                   range=[df_top_countries['Year'].min(), df_top_countries['Year'].max()], autorange=False),
+        yaxis=dict(
+            title_font=dict(color='#59412f')),
         updatemenus=[
             dict(
                 type='buttons',
@@ -337,38 +341,73 @@ if opcion == 'Soy':
     with col2:
         # consumption
         freq = ["Are you an usual consumer?", "Once a day", "1-2 times a week", "Never"]                
-        tofu_choice = st.selectbox("How often do you have it?", freq)
+        choice = st.selectbox("How often do you have it?", freq)
         
     # SOY MILK
     if soy_choice == 'Soy milk':
+        col1, col2 = st.columns([1.75, 2])
+        col1.write('<style>.stRadio > label{height: 50px; display: flex; align-items: center;}</style>', unsafe_allow_html=True)
+        col2.write('<style>.stRadio > label{height: 50px; display: flex; align-items: center;}</style>', unsafe_allow_html=True)
 
-        freq = ["Are you an usual consumer?" ,"Once a day", "1-2 times a week", "Never"]
-        soymilk_choice = st.selectbox("How often do you have it?", freq)
-        if soymilk_choice == "Once a day":
-            soy_milk_emissions = fod[fod['Entity'] == 'Soy milk']
-            # Total emisions of 200g by day
-            total_emissions = soy_milk_emissions[['food_emissions_land_use', 'food_emissions_farm', 'food_emissions_animal_feed',
-                                                'food_emissions_processing', 'food_emissions_transport', 'food_emissions_retail',
-                                                'food_emissions_packaging', 'food_emissions_losses']].sum().sum() * 0.2
-            # Result
-            st.write(f"Over an entire year your consumption of soy milk is adding {math.ceil(total_emissions* 365)}kg greenhouse gas emissions.")
-        if soymilk_choice == "1-2 times a week":
-            soy_milk_emissions = fod[fod['Entity'] == 'Soy milk']
-            # Total emisions of 200g by1,5 days week
-            total_emissions = soy_milk_emissions[['food_emissions_land_use', 'food_emissions_farm', 'food_emissions_animal_feed',
-                                                'food_emissions_processing', 'food_emissions_transport', 'food_emissions_retail',
-                                                'food_emissions_packaging', 'food_emissions_losses']].sum().sum() * 0.2
-            # Result
-            st.write(f"Over an entire year your consumption of soy milk is adding {math.ceil(total_emissions* 78)}kg greenhouse gas emissions.")
-        if soymilk_choice == "Never":
-            soy_milk_emissions = fod[fod['Entity'] == 'Soy milk']
-            # Total emisions of 42kg by year, global mean
-            total_emissions = soy_milk_emissions[['food_emissions_land_use', 'food_emissions_farm', 'food_emissions_animal_feed',
-                                                'food_emissions_processing', 'food_emissions_transport', 'food_emissions_retail',
-                                                'food_emissions_packaging', 'food_emissions_losses']].sum().sum()
-            # Result
-            st.write(f"Over an entire year your consumption of soy milk is adding {math.ceil(total_emissions* 42)}kg greenhouse gas emissions.")
-    
+        # imagen tofu
+        with col1:
+            ruta_imagen = r'.\images\soymilk.png'
+            st.image(ruta_imagen, width=160, clamp=True)
+            st.markdown("200ml per serving")
+
+        with col2:
+
+            if choice == "Once a day":
+                soy_milk_emissions = fod[fod['Entity'] == 'Soy milk']
+                # Total emisions of 200g by day
+                total_emissions = soy_milk_emissions[['food_emissions_land_use', 'food_emissions_farm', 'food_emissions_animal_feed',
+                                                    'food_emissions_processing', 'food_emissions_transport', 'food_emissions_retail',
+                                                    'food_emissions_packaging', 'food_emissions_losses']].sum().sum() * 0.2
+                # Result
+                st.write(f"Over an entire year your consumption of soy milk is adding {math.ceil(total_emissions* 365)}kg greenhouse gas emissions.")
+                # GIF car
+                with open(r'.\images\car.gif', 'rb') as r_ima:
+                    contents = r_ima.read()
+                data_url = base64.b64encode(contents).decode("utf-8")
+                image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
+                st.markdown(image_html, unsafe_allow_html=True)
+
+                st.markdown("That's the equivalent of driving **311km in car**")
+
+            if choice == "1-2 times a week":
+                soy_milk_emissions = fod[fod['Entity'] == 'Soy milk']
+                # Total emisions of 200g by1,5 days week
+                total_emissions = soy_milk_emissions[['food_emissions_land_use', 'food_emissions_farm', 'food_emissions_animal_feed',
+                                                    'food_emissions_processing', 'food_emissions_transport', 'food_emissions_retail',
+                                                    'food_emissions_packaging', 'food_emissions_losses']].sum().sum() * 0.2
+                # Result
+                st.write(f"Over an entire year your consumption of soy milk is adding {math.ceil(total_emissions* 78)}kg greenhouse gas emissions.")
+                # GIF car
+                with open(r'.\images\car.gif', 'rb') as r_ima:
+                    contents = r_ima.read()
+                data_url = base64.b64encode(contents).decode("utf-8")
+                image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
+                st.markdown(image_html, unsafe_allow_html=True)
+
+                st.markdown("That's the equivalent of driving **69km in car**")
+
+            if choice == "Never":
+                soy_milk_emissions = fod[fod['Entity'] == 'Soy milk']
+                # Total emisions of 42kg by year, global mean
+                total_emissions = soy_milk_emissions[['food_emissions_land_use', 'food_emissions_farm', 'food_emissions_animal_feed',
+                                                    'food_emissions_processing', 'food_emissions_transport', 'food_emissions_retail',
+                                                    'food_emissions_packaging', 'food_emissions_losses']].sum().sum()
+                # Result
+                st.write(f"That's interesting, eventhough over an entire year the world average consumption of soy milk is adding {math.ceil(total_emissions* 42)}kg greenhouse gas emissions.")
+                # GIF car
+                with open(r'.\images\car.gif', 'rb') as r_ima:
+                    contents = r_ima.read()
+                data_url = base64.b64encode(contents).decode("utf-8")
+                image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
+                st.markdown(image_html, unsafe_allow_html=True)
+
+                st.markdown("That's the equivalent of driving **177km in car**")
+        
     # TOFU
     if soy_choice == 'Tofu':
         col1, col2 = st.columns([1.75, 2])
@@ -379,9 +418,10 @@ if opcion == 'Soy':
         with col1:
             ruta_imagen = r'.\images\tofua.png'
             st.image(ruta_imagen, width=160, clamp=True)
+            st.markdown("150g per serving")            
 
         with col2:
-            if tofu_choice == "Once a day":
+            if choice == "Once a day":
                 tofu_emissions = fod[fod['Entity'] == 'Tofu']
                 # Total emisions of 150g by day
                 total_emissions = tofu_emissions[['food_emissions_land_use', 'food_emissions_farm', 'food_emissions_animal_feed',
@@ -397,10 +437,9 @@ if opcion == 'Soy':
                 image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
                 st.markdown(image_html, unsafe_allow_html=True)
 
+                st.markdown("That's the equivalent of driving **753km in car**")
 
-                st.write("That´s the equivalent of driving 200km in car")
-
-            if tofu_choice == "1-2 times a week":
+            if choice == "1-2 times a week":
                 tofu_emissions = fod[fod['Entity'] == 'Tofu']
                 # Total emisions of 150g by 1,5 days week
                 total_emissions = tofu_emissions[['food_emissions_land_use', 'food_emissions_farm', 'food_emissions_animal_feed',
@@ -408,14 +447,110 @@ if opcion == 'Soy':
                                                     'food_emissions_packaging', 'food_emissions_losses']].sum().sum() * 0.15
                 # Result
                 st.write(f"Over an entire year your consumption of tofu is adding {math.ceil(total_emissions* 78)}kg greenhouse gas emissions.")
-            if tofu_choice == "Never":
+                # GIF car
+                with open(r'.\images\car.gif', 'rb') as r_ima:
+                    contents = r_ima.read()
+                data_url = base64.b64encode(contents).decode("utf-8")
+                image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
+                st.markdown(image_html, unsafe_allow_html=True)
+
+                st.markdown("That's the equivalent of driving **160km in car**")
+
+            if choice == "Never":
                 tofu_emissions = fod[fod['Entity'] == 'Tofu']
                 # Total emisions of 60kg by year, global mean
                 total_emissions = tofu_emissions[['food_emissions_land_use', 'food_emissions_farm', 'food_emissions_animal_feed',
                                                     'food_emissions_processing', 'food_emissions_transport', 'food_emissions_retail',
                                                     'food_emissions_packaging', 'food_emissions_losses']].sum().sum()
                 # Result
-                st.write(f"Over an entire year your consumption of tofu is adding {math.ceil(total_emissions* 60)}kg greenhouse gas emissions.")
+                st.write(f"That's interesting, eventhough over an entire year the world average consumption of tofu is adding {math.ceil(total_emissions* 60)}kg greenhouse gas emissions.")
+                # GIF car
+                with open(r'.\images\car.gif', 'rb') as r_ima:
+                    contents = r_ima.read()
+                data_url = base64.b64encode(contents).decode("utf-8")
+                image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
+                st.markdown(image_html, unsafe_allow_html=True)
+
+                st.markdown("That's the equivalent of driving **822km in car**")
+
+
+elif opcion == 'Vegetable oils':
+
+    st.write("⚡**Fun fact**⚡: There are numerous types of vegetable oils available, each derived from different plant sources. Some common examples include olive oil, canola oil, soybean oil, sunflower oil, and coconut oil. Each oil has its own distinct flavor, smoke point, and nutritional profile.")
+    st.write("But not everything is sunshine 🌞 and rainbows 🌈. The production of vegetable oils can have both positive and negative environmental impacts. On the positive side, vegetable oils derived from sustainable sources, such as palm oil from certified plantations, can help reduce deforestation and preserve biodiversity. On the negative side, the expansion of oil palm plantations, particularly in tropical regions, has been associated with deforestation and habitat loss for endangered species.")
+
+    # Get the top 10 countries with highest yield production
+    columns = ['Palm', 'Sesame', 'Sunflower']
+    for col in columns:
+        oil_yield[col] = pd.to_numeric(oil_yield[col], errors='coerce')
+
+    top_countries = oil_yield.groupby('Entity')[columns].sum().nlargest(10, 'Palm').index.tolist()
+
+    # Filter the data for the top countries
+    filtered_data = oil_yield[oil_yield['Entity'].isin(top_countries)]
+
+    # Create a line chart for each oil type
+    fig = go.Figure()
+    for oil_type in ['Palm', 'Sesame', 'Sunflower']:
+        for country in top_countries:
+            df = filtered_data[(filtered_data['Entity'] == country)]
+            fig.add_trace(go.Scatter(
+                x=df['Year'],
+                y=df[oil_type],
+                mode='lines',
+                name=f"{country} - {oil_type}"
+            ))
+
+    # Set chart layout
+    fig.update_layout(
+        title='Yield Comparison of Palm, Sesame, and Sunflower',
+        xaxis_title='Year',
+        yaxis_title='Yield',
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+    )
+
+    # Render the chart using Streamlit
+    st.plotly_chart(fig)
+
+
+    st.subheader("Comparation between different oils")
+
+    # Define the data and buttons
+    oils = ['Olive Oil', 'Palm Oil', 'Rapeseed Oil', 'Soybean Oil', 'Sunflower Oil']
+
+    # Filters
+    selected_oils = st.multiselect("Select oils:", oils)
+    filtered_data = fod[fod['Entity'].isin(selected_oils)]
+
+    # Create a list of emissions columns
+    emissions_columns = ['food_emissions_land_use', 'food_emissions_farm',
+                        'food_emissions_processing', 'food_emissions_transport',
+                        'food_emissions_packaging', 'food_emissions_losses']
+
+
+    # Create the radial chart for the selected oils
+    fig = go.Figure()
+
+    for oil in selected_oils:
+        fig.add_trace(go.Scatterpolar(
+            r=filtered_data.loc[filtered_data['Entity'] == oil, emissions_columns].values[0],
+            theta=emissions_columns,
+            fill='toself',
+            name=oil
+        ))
+
+    fig.update_layout(
+        polar=dict(
+            radialaxis=dict(visible=True),
+        ),
+        showlegend=True,
+        paper_bgcolor='rgba(0,0,0,0)',
+    )
+
+    # Render the chart using Streamlit
+    st.plotly_chart(fig, use_container_width=True)
+
+
 
 if st.button("Click here!"):
-    st.write("¡Presionaste el botón!")
+   st.write("¡Presionaste el botón!")
