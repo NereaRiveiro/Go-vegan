@@ -482,7 +482,7 @@ elif opcion == 'Vegetable oils':
     # Get the top 10 countries with highest yield production
     columns = ['Palm', 'Sesame', 'Sunflower']
     for col in columns:
-        oil_yield[col] = pd.to_numeric(oil_yield[col], errors='coerce')
+        oil_prod[col] = pd.to_numeric(oil_yield[col], errors='coerce')
 
     top_countries = oil_yield.groupby('Entity')[columns].sum().nlargest(10, 'Palm').index.tolist()
 
@@ -524,7 +524,7 @@ elif opcion == 'Vegetable oils':
 
     # Create a list of emissions columns
     emissions_columns = ['food_emissions_land_use', 'food_emissions_farm',
-                        'food_emissions_processing', 'food_emissions_transport',
+                        'food_emissions_processing',
                         'food_emissions_packaging', 'food_emissions_losses']
 
 
@@ -544,11 +544,11 @@ elif opcion == 'Vegetable oils':
             radialaxis=dict(visible=True),
         ),
         showlegend=True,
-        paper_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='#dcffc4',
     )
 
     # Render the chart using Streamlit
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True, theme='streamlit')
 
 
 
