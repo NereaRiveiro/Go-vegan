@@ -45,32 +45,49 @@ with open('style.css') as f:
 
 with st.sidebar:
     
-    opcions = ['Home', 'Explore', 'About us']
+    opcions = ['Home', 'General overview', 'Explore', 'About us']
     selected = option_menu("Menu", opcions, 
-        icons=['house', 'graph-up', 'flower2'], menu_icon="cast", default_index=1)
-    selected
-
-    with st.echo():
-        st.write("This code will be printed to the sidebar.")
+        icons=['house', 'folder', 'graph-up', 'flower2'], menu_icon="cast", default_index=0)
 
     with st.spinner("Loading..."):
-        time.sleep(5)
+        time.sleep(3)
     st.success("Done!")
 
 
 if selected == 'Home':
-    def main():
-        st.title("Go vegan?")
 
-    if __name__ == '__main__':
-        main()
+    container = st.container()
+    container.markdown(
+        """
+        <div style="display: flex; justify-content: center;">
+            <img src="Go-vegan-\images\food.png" alt="Imagen" style="max-width: 100%;">
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
     st.header("Are you aware of your impact?")
 
+    col1, col2 = st.columns([2.75, 1])
 
-if selected == 'Explore':
-    st.subheader("Discover your food choices environmental impact")
-    st.write("We´ve extracted info about the 40 foods most tipical around the world. Let´s check some info")
+    with col1:
+        st.write("🌱🌍 Dive into the Impact of Your Food Choices 🍽️")
+        st.write("Climate change is a pressing concern that demands our attention. As global warming becomes an imminent issue in many countries, the scarcity of water looms, and our reliance on fossil fuels reaches a critical point.")
+        st.write("But fear not! We are determined to combat these challenges, taking strides forward every day. And guess what? One of the most effective steps we can take is right in front of us—our diet.")
+        st.write("Did you know that the food we consume daily holds a significant influence over the environment? In a groundbreaking report by the UN's Intergovernmental Panel on Climate Change (IPCC), it was revealed that the high consumption of meat and dairy in the Western world is contributing to global warming. It's time for us to reassess our choices and embrace a more eco-friendly approach to eating.")
+        st.write("In this app, we delve into the critical questions: Which foods have the greatest environmental impact? How can we make our diet more sustainable? Join us on this adventure as we uncover the answers and discover the power of veganism as the ultimate eco-friendly dietary choice.")
+        st.write("Together, we can make a positive change—one plate at a time. Let's dive in and explore the fascinating world of sustainable food choices while having fun along the way. Get ready to embark on a journey of taste, consciousness, and environmental responsibility. The future is in our hands, and it starts with what we put on our plates.")
+        st.write("Are you ready to discover how veganism can revolutionize your life and help save the planet? Let's get started!")
+
+    with col2:
+        ruta = r'./images/food.png'
+        st.image(ruta, clamp=True)
+
+
+if selected == 'General overview':
+    st.subheader("Check the emissions of your food 🌱")
+    st.write("**Total greenhouse gas emissions¹** of the most tipical foods around the world. Let´s dive in!")
+    st.write("You can compare them by animal or vegetable origin, or you can simply select the specific labels that interest you.")
 
 
     # Gráfico de todas las food
@@ -175,8 +192,15 @@ if selected == 'Explore':
     st.plotly_chart(fig, theme="streamlit")
 
 
+    st.write("¹Greenhouse gas emissions: is a unit in CO2eq that converts the impact of different kinds of greenhouse gases, like methane and nitrous oxide, to the equivalent amount of carbon dioxide.")
+
+
+if selected == 'Explore':
+
+    st.subheader("Discover your food choices environmental impact 🌱")
+    st.write("To find out the climate impact of what you eat and drink, choose from one of the items in our calculator 🡳")
     # Food specifications
-    food_l = ["Take your pick!" ,"Beef", "Vegetable oils", "Soy"]
+    food_l = ["Take your pick!", "Meat", "Vegetable oils", "Soy", "Dark Chocolate", "Sugar", "Coffee", "Vegetables", "Fruits", "Rice"]
     opcion = st.selectbox('Which food are you interested in the most?', food_l)
     st.write("You´ve chosen", opcion)
 
@@ -562,6 +586,23 @@ if selected == 'Explore':
         # Render the chart using Streamlit
         st.plotly_chart(fig, use_container_width=True, theme='streamlit')
 
+    elif opcion == 'Meat':
+
+        st.subheader("Is animal protein better that vegetal protein?")
+
+    elif opcion == 'Take your pick!':
+
+        ruta = r'./images/logonbk.png'
+        st.image(ruta)
+
+
+
+    else:
+      
+        with st.spinner("Loading..."):
+            time.sleep(5)
+
+        st.write("**Ups! There seems to be a problem, please try again later.**")
 
 
 if selected == 'About us':
