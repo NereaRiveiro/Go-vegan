@@ -5,6 +5,8 @@ import pandas as pd
 import numpy as np
 import math
 from itertools import cycle
+import base64
+import time
 
 pd.options.plotting.backend = "plotly"
 import matplotlib.pyplot as plt
@@ -37,6 +39,20 @@ with open('style.css') as f:
         unsafe_allow_html=True,
     )
 
+# Sidebar
+
+
+opcions = ['Home', 'Explore', 'About us']
+opcion_seleccionada = st.sidebar.selectbox('Menu', opcions)
+
+with st.sidebar:
+    
+    with st.echo():
+        st.write("This code will be printed to the sidebar.")
+
+    with st.spinner("Loading..."):
+        time.sleep(5)
+    st.success("Done!")
 
 def main():
     st.title("Go vegan?")
@@ -186,41 +202,49 @@ if opcion == 'Soy':
                 hovertemplate=f'{labels[i]}: 0',
             )
         )
-        fig.update_traces(overwrite=True)  # Actualizar las barras en cada iteración
-        fig.update_layout(
-            updatemenus=[dict(
+
+    # Create frames for animation
+    frames = []
+    for i in range(len(labels)):
+        frame_data = df[labels[i]].tolist()  # Get data for current category
+        frame = go.Frame(
+            data=[go.Bar(
+                x=[labels[i]],
+                y=[frame_data[j]],
+                marker=dict(color=colors[i]),
+                hovertemplate=f'{labels[i]}: {frame_data[j]}'
+            ) for j in range(len(frame_data))]
+        )
+        frames.append(frame)
+
+    # Configurar el diseño del gráfico
+    fig.update_layout(
+        updatemenus=[
+            dict(
                 type='buttons',
                 showactive=False,
                 buttons=[dict(
                     label='Play',
                     method='animate',
                     args=[None, {'frame': {'duration': 500, 'redraw': True}, 'fromcurrent': True}]
-            )]
-        )
-    ]
-)
-    # Actualizar las barras en cada fotograma de la animación
-    frames = []
-    for i in range(len(labels)):
-        frame_data = df[labels[i]].tolist()  # Obtener los datos correspondientes a la categoría actual
-        frames.append(go.Frame(data=[go.Bar(y=[frame_data[j]], hovertemplate=f'{labels[i]}: {frame_data[j]}') for j in range(len(frame_data))]))
-
-    fig.frames = frames
-
-    # Configurar el diseño del gráfico
-    fig.update_layout(
+                )]
+            )
+        ],
         title='Total emissions by category',
         xaxis=dict(
             title='Category',
-            title_font=dict(color='#59412f')),
+            title_font=dict(color='#59412f')
+        ),
         yaxis=dict(
             title='Total emissions',
             title_font=dict(color='#59412f'),
-            range=[0, max(totals) + max(totals) * 0.1]),
+            range=[0, max(totals) + max(totals) * 0.1]
+        ),
         height=400,
         width=600,
-        showlegend=False,
+        showlegend=False
     )
+
 
     # Config exe y
     fig.update_yaxes(
@@ -249,7 +273,6 @@ if opcion == 'Soy':
     top_countries = grouped.groupby('Entity')['Area harvested'].sum().nlargest(5).index
     df_top_countries = grouped[grouped['Entity'].isin(top_countries)]
 
-    st.write(f'a verrrrrrrrrrrrrrrrrrrrrrrrrr', len(df_top_countries['Entity']))
     # Create interactive graphic
     fig = px.line(df_top_countries, x='Year', y='Area harvested', color='Entity',
                 labels={'Year': 'Year', 'Area harvested': 'Area harvested (hectareas)'},
@@ -279,8 +302,7 @@ if opcion == 'Soy':
     )
     # Animation photograms
     frames = []
-    colors = sns.color_palette('pastel')  # Colores de la paleta 'pastel' de Seaborn
-    colors = [f'rgb({int(color[0] * 255)},{int(color[1] * 255)},{int(color[2] * 255)})' for color in colors]
+    colors = ["#D4E157", "#FF5722", "#558B2F", "#CDDC39", "#E64A19"]
     for i, year in enumerate(df_top_countries['Year'].unique()):
         frame_data = df_top_countries[df_top_countries['Year'] <= year]
         frame = go.Frame(
@@ -288,7 +310,7 @@ if opcion == 'Soy':
                             y=frame_data[frame_data['Entity'] == country]['Area harvested'], 
                             mode='lines', 
                             name=country,
-                            line=dict(color=colors[i]))  # Asignar color de la paleta
+                            line=dict(color=colors[i % len(colors)]))  # Asignar color de la paleta
                 for country in top_countries],
             name=str(year)
         )
@@ -305,10 +327,18 @@ if opcion == 'Soy':
 
     st.write("In Brazil the production in 2020 was by 370k hectares. That´s the equivalent for 370k football fields or the whole surface of Mexico City")
 
-
+    st.subheader("The most common soy foods are soy milk and tofu")
     # Tofu and soy milk consumption
-    list_soy = ["Choose an option", "Soy milk", "Tofu"]
-    soy_choice = st.selectbox("The most common human foods made by soy are soy milk and tofu, let´s check them!", list_soy)
+    col1, col2 = st.columns([1, 2])
+    with col1:
+        list_soy = ["Choose an option", "Soy milk", "Tofu"]
+        soy_choice = st.selectbox("Let´s check them!", list_soy)
+    
+    with col2:
+        # consumption
+        freq = ["Are you an usual consumer?", "Once a day", "1-2 times a week", "Never"]                
+        tofu_choice = st.selectbox("How often do you have it?", freq)
+        
     # SOY MILK
     if soy_choice == 'Soy milk':
 
@@ -341,16 +371,16 @@ if opcion == 'Soy':
     
     # TOFU
     if soy_choice == 'Tofu':
-        col1, col2 = st.columns([1, 2])
+        col1, col2 = st.columns([1.75, 2])
+        col1.write('<style>.stRadio > label{height: 50px; display: flex; align-items: center;}</style>', unsafe_allow_html=True)
+        col2.write('<style>.stRadio > label{height: 50px; display: flex; align-items: center;}</style>', unsafe_allow_html=True)
+
         # imagen tofu
         with col1:
             ruta_imagen = r'.\images\tofua.png'
-            st.image(ruta_imagen, width=150, clamp=True)
+            st.image(ruta_imagen, width=160, clamp=True)
 
         with col2:
-            freq = ["Are you an usual consumer?", "Once a day", "1-2 times a week", "Never"]
-            # consumption                
-            tofu_choice = st.selectbox("How often do you have it?", freq)
             if tofu_choice == "Once a day":
                 tofu_emissions = fod[fod['Entity'] == 'Tofu']
                 # Total emisions of 150g by day
@@ -359,6 +389,17 @@ if opcion == 'Soy':
                                                     'food_emissions_packaging', 'food_emissions_losses']].sum().sum() * 0.15
                 # Result
                 st.write(f"Over an entire year your consumption of tofu is adding {math.ceil(total_emissions* 365)}kg greenhouse gas emissions.")  
+
+                # GIF car
+                with open(r'.\images\car.gif', 'rb') as r_ima:
+                    contents = r_ima.read()
+                data_url = base64.b64encode(contents).decode("utf-8")
+                image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
+                st.markdown(image_html, unsafe_allow_html=True)
+
+
+                st.write("That´s the equivalent of driving 200km in car")
+
             if tofu_choice == "1-2 times a week":
                 tofu_emissions = fod[fod['Entity'] == 'Tofu']
                 # Total emisions of 150g by 1,5 days week
