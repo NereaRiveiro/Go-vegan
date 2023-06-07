@@ -9,6 +9,12 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
+from sklearn.metrics import confusion_matrix
+from sklearn.model_selection import train_test_split as tts
+from sklearn.metrics import silhouette_score
+from sklearn.cluster import KMeans
+
+
 
 
 
@@ -113,7 +119,7 @@ def cluster_evaluation(data, max_clusters):
             kmeans = KMeans(nclusters=k)
             kmeans.fit(data)
             wcss.append(kmeans.inertia)
-            silhouette_avg = silhouettescore(data, kmeans.labels)
+            silhouette_avg = silhouette_score(data, kmeans.labels)
             silhouette_scores.append(silhouette_avg)
 
     # Elbow Method
