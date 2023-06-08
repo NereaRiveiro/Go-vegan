@@ -24,7 +24,7 @@ from matplotlib.animation import FuncAnimation
 st.set_page_config(page_title="Go vegan?", page_icon=":avocado:", layout="wide", initial_sidebar_state="expanded")
 
 
-fod = pd.read_csv(r'..\data\Food\food_clean.csv')
+fod = pd.read_csv('data/Food/food_clean.csv')
 soy = pd.read_csv(r'..\data\Soy\soy_clean.csv', parse_dates=['Year'])
 oil_prod = pd.read_csv(r'..\data/Palm/oil_prod_clean.csv')
 oil_yield = pd.read_csv(r'..\data/Palm/oil_yield_clean.csv')
