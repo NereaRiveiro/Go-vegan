@@ -1,9 +1,13 @@
+body {
+    cursor: url("../images/streamlit/zan.svg"), auto;
+}   
+
 footer {
     visibility: hidden;
 }
 
-div.css-1j15ncu.e10aic0r2 {
-    src: url(Go-vegan-\images\34-watermelon-with-maracas.gif)
+div.css-4z1n4l.e10aic0r5 {
+    src: url(..\images\34-watermelon-with-maracas.gif);
     
 }
 
@@ -14,4 +18,14 @@ span.css-10trblm.eqr7zpz0 {
 
 div.st-au.st-ax.st-av.st-aw.st-bf.st-bh.st-b8.st-b3.st-b4.st-bi.st-bj.st-bk.st-bl.st-bm.st-bn.st-bo.st-bp.st-bq.st-br.st-b1.st-bs.st-bt.st-d7.st-d8.st-d9.st-da.st-by {
     border-radius: 3px;
+}
+
+div.stMarkdown {
+    text-align: justify;
+    font-family: Georgia, serif;
+}
+
+div.st-cq.st-c4.st-cr.st-cs.st-ct.st-c6.st-cu.st-cv.st-cw {
+    color: #B9D3B0;
+
 }

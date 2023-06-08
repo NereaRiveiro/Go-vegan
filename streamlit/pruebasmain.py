@@ -46,13 +46,14 @@ with open('style.css') as f:
 # Sidebar menu
 with st.sidebar:
     
+    st.image('../images/streamlit/logor.png', width=30)
     opcions = ['Home', 'General overview', 'Explore', 'Recomendations', 'About us']
     selected = option_menu("Menu", opcions, 
         icons=['house', 'folder', 'graph-up', 'eye', 'flower2'], menu_icon="cast", default_index=0)
 
     with st.spinner("Loading..."):
-        time.sleep(3)
-    st.success("Done!")
+        time.sleep(2)
+
 
 
 if selected == 'Home':
@@ -64,7 +65,7 @@ if selected == 'Home':
         st.image('../images/streamlit/logof.png', width=210)
 
     st.write('\n')    
-    st.header("Are you aware of your impact?")
+    st.subheader("Are you aware of your impact?")
     st.write("---")
 
     col1, col2 = st.columns([2.75, 1])
@@ -74,7 +75,7 @@ if selected == 'Home':
         st.write("Climate change is a pressing concern that demands our attention. As **global warming** becomes an imminent issue, the scarcity of water looms and our reliance on fossil fuels reaches a critical point.")
         st.write("But fear not! We are determined to combat. And guess what? One of the most effective steps we can take is right in front of us—**our diet**.")
         st.write("Did you know that the food we consume daily holds a significant influence over the environment? In a groundbreaking report by the UN's Intergovernmental Panel on Climate Change (IPCC), it was revealed that the **high consumption of meat and dairy in the Western world is contributing to global warming**. It's time for us to reassess our choices and embrace a more eco-friendly approach to eating.")
-        st.write("In this app, you´ll get to know the emissions, water waste and other info about your usual meals. Join us on this adventure as we uncover the answers and discover the **power of veganism as the ultimate eco-friendly dietary choice**.")
+        st.write("In this web, you´ll get to know the emissions, water waste and other info about your usual meals. Join us on this adventure as we uncover the answers and discover the **power of veganism as the ultimate eco-friendly dietary choice**.")
         st.write("Are you ready to discover how veganism can revolutionize your life and help save the planet? Let's get started!")
 
     with col2:
@@ -268,7 +269,7 @@ if selected == 'Explore':
 
         # Display chart
         st.plotly_chart(fig, use_container_width=True)
-
+        
         st.write("**Legend**:")
         col1, col2, col3 = st.columns(3)
         with col1:
@@ -277,6 +278,9 @@ if selected == 'Explore':
             st.write("- Feed: animal feed.")
         with col3:
             st.write("- Processed: used for productions.")
+        st.write("---")
+        st.write("\n")
+        st.write("\n")
         st.write("**Wow! The difference between them is surprising**. The processed soy is the main destined use by far. Some examples from what soy can be processed are **soy oil** or **soybean cake** for basic animal feed protein")
         st.write("---")
 
