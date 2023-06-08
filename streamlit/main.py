@@ -37,7 +37,7 @@ paises = filtrar_paises(todos)
 palette = ['#6a863b', '#68c843', '#f39f18']
 
 # CSS access
-with open('style.css') as f:
+with open('streamlit/style.css') as f:
     st.markdown(
         f"<style>{f.read()}</style>",
         unsafe_allow_html=True,
