@@ -1,5 +1,8 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
+from streamlit_extras import add_vertical_space as avs
+from streamlit_extras.buy_me_a_coffee import button
+
 
 
 import sys
@@ -60,13 +63,13 @@ if selected == 'Home':
 
     col1, col2, col3 = st.columns([1, 1, 1])
     with col1:
-        st.write('               ')
+        avs.add_vertical_space(1)
     with col2:
         st.image('images/streamlit/logof.png', width=210)
 
     st.write('\n')    
     st.subheader("Are you aware of your impact?")
-    st.write("---")
+    avs.add_vertical_space(1)
 
     col1, col2 = st.columns([2.75, 1])
 
@@ -79,9 +82,7 @@ if selected == 'Home':
         st.write("Are you ready to discover how veganism can revolutionize your life and help save the planet? Let's get started!")
 
     with col2:
-        st.write('\n')
-        st.write('\n')
-        st.write("\n")
+        avs.add_vertical_space(3)
         ruta = r'images/streamlit/food.png'
         st.image(ruta, clamp=True)
 
@@ -195,7 +196,7 @@ if selected == 'General overview':
 
     col1, col2 = st.columns([6, 1])
     with col1:
-        st.write("\n")
+        avs.add_vertical_space(1)
         st.write("**Do you want to know more?** Let´s go to Explore!")
     # clicked = st.button(label='Click here', )
     # if clicked:
@@ -279,8 +280,7 @@ if selected == 'Explore':
         with col3:
             st.write("- Processed: used for productions.")
         st.write("---")
-        st.write("\n")
-        st.write("\n")
+        avs.add_vertical_space(2)
         st.write("**Wow! The difference between them is surprising**. The processed soy is the main destined use by far. Some examples from what soy can be processed are **soy oil** or **soybean cake** for basic animal feed protein")
         st.write("---")
 
@@ -502,10 +502,9 @@ if selected == 'Explore':
 
         col1, col2 = st.columns([3, 1])
         with col1:
-            st.write('\n')
+            avs.add_vertical_space(1)
             st.write("⚡**Fun fact**: There are **numerous types of vegetable oils** available, each derived from different plant sources. Some common examples include olive oil, canola oil, soybean oil, sunflower oil, and coconut oil. Each oil has its own distinct **flavor**, **smoke point**, and **nutritional profile**.")
-            st.write('\n')
-            st.write('\n')
+            avs.add_vertical_space(2)
             st.write("But not everything is sunshine 🌞 and rainbows 🌈. The production of vegetable oils can have both positive and negative environmental impacts. On the **positive side**, vegetable oils derived from sustainable sources, such as palm oil from certified plantations, can help reduce deforestation and preserve biodiversity. On the **negative side**, the expansion of oil palm plantations, particularly in tropical regions, has been associated with deforestation and habitat loss for endangered species.")
 
         with col2:
@@ -708,11 +707,14 @@ if selected == 'About us':
 
     st.header('Who are we?')
 
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
     with col1:
         st.write("This is a project made in Ironhack to practice all the process of a data analyst. It was processed with Streamlit.")
-    with col2:
+        st.write(" ")
+    with col3:
+        st.image("images/streamlit/me.png")
         st.write("Hi! My name is Nerea. I´m a data analyst passioned about social studies.")
         st.write("You can see more of my work here: ")
         st.write("[Check my github](https://github.com/NereaRiveiro)")
-    
+        
+        button(username="nereariveiro", floating=False, width=250)
