@@ -495,8 +495,8 @@ if selected == 'Explore':
     elif opcion == 'Vegetable oils':
         st.subheader("Let's dive into the vegetable oils world")
 
-        st.write("⚡**Fun fact**⚡: There are numerous types of vegetable oils available, each derived from different plant sources. Some common examples include olive oil, canola oil, soybean oil, sunflower oil, and coconut oil. Each oil has its own distinct flavor, smoke point, and nutritional profile.")
-        st.write("But not everything is sunshine 🌞 and rainbows 🌈. The production of vegetable oils can have both positive and negative environmental impacts. On the positive side, vegetable oils derived from sustainable sources, such as palm oil from certified plantations, can help reduce deforestation and preserve biodiversity. On the negative side, the expansion of oil palm plantations, particularly in tropical regions, has been associated with deforestation and habitat loss for endangered species.")
+        st.write("⚡**Fun fact**: There are **numerous types of vegetable oils** available, each derived from different plant sources. Some common examples include olive oil, canola oil, soybean oil, sunflower oil, and coconut oil. Each oil has its own distinct **flavor**, **smoke point**, and **nutritional profile**.")
+        st.write("But not everything is sunshine 🌞 and rainbows 🌈. The production of vegetable oils can have both positive and negative environmental impacts. On the **positive side**, vegetable oils derived from sustainable sources, such as palm oil from certified plantations, can help reduce deforestation and preserve biodiversity. On the **negative side**, the expansion of oil palm plantations, particularly in tropical regions, has been associated with deforestation and habitat loss for endangered species.")
 
         # Get the top 10 countries with highest production
         columns = ['Palm', 'Groundnut', 'Cottonseed', 'Coconut', 'Maize']
@@ -520,7 +520,7 @@ if selected == 'Explore':
 
         # Set chart layout
         fig.update_layout(
-            title='Production Comparison of Palm, Groundnut, Cottonseed, Coconut and Maize',
+            title='Production Evolution of Palm, Groundnut, Cottonseed, Coconut and Maize',
             xaxis_title='Year',
             yaxis_title='Yield',
             legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
@@ -528,15 +528,17 @@ if selected == 'Explore':
 
         # Render the chart using Streamlit
         st.plotly_chart(fig)
-
+        st.write("Over the years, we can witness the evolution of **production in terms of hectares** dedicated to oil harvest, with **palm oil** experiencing the most exponential growth. This trend highlights the alarming issue of **deforestation**, as it necessitates larger areas of land for these harvests, resulting in the destruction of native flora.")
+        st.write("---")
 
         st.subheader("Emissions comparation between oils")
+        st.write("Discover how each oil type contributes to greenhouse gas emissions and gain valuable insights into their sustainability. Start comparing now and make informed decisions for a greener future!")
 
         # Define the data and buttons
         oils = ['Olive Oil', 'Palm Oil', 'Rapeseed Oil', 'Soybean Oil', 'Sunflower Oil']
 
         # Filters
-        selected_oils = st.multiselect("Select oils:", oils)
+        selected_oils = st.multiselect("Which oils do you use the most:", oils)
         filtered_data = fod[fod['Entity'].isin(selected_oils)]
 
         # Create a list of emissions columns
@@ -548,8 +550,8 @@ if selected == 'Explore':
         # Create the radial chart for the selected oils
         fig = go.Figure()
 
-        col_lin = ["#FFAB00", "#827717", "#FF3D00", "#BF360C", "#FF3D00"]
-        col_fil = ["rgba(255, 171, 0, 0.5)", "rgba(130, 119, 23, 0.5)", "rgba(175, 180, 43, 0.5)", "rgba(191, 54, 12, 0.5)", "rgba(255, 61, 0, 0.5)"]
+        col_lin = ["#FFAB00", "#827717", "#BF360C", "#FF3D00", "#AFB42B",]
+        col_fil = ["rgba(255, 171, 0, 0.5)", "rgba(130, 119, 23, 0.5)", "rgba(191, 54, 12, 0.5)", "rgba(255, 61, 0, 0.5)", "rgba(175, 180, 43, 0.5)"]
 
         for i, oil in enumerate(selected_oils):
             fig.add_trace(go.Scatterpolar(
