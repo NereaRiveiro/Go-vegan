@@ -57,11 +57,13 @@ with st.sidebar:
 
 if selected == 'Home':
 
-    col1, col2 = st.columns([0.55, 1.5])
+    col1, col2, col3 = st.columns([1, 1, 1])
     with col1:
-        st.image('../images/streamlit/logof.png', width=210)
+        st.write('               ')
     with col2:
-        st.header("Are you aware of your impact?")
+        st.image('../images/streamlit/logof.png', width=210)
+        
+    st.header("Are you aware of your impact?")
     st.write("---")
 
     col1, col2 = st.columns([2.75, 1])
@@ -75,6 +77,9 @@ if selected == 'Home':
         st.write("Are you ready to discover how veganism can revolutionize your life and help save the planet? Let's get started!")
 
     with col2:
+        st.write('\n')
+        st.write('\n')
+        st.write("\n")
         ruta = r'..\images\streamlit\food.png'
         st.image(ruta, clamp=True)
 
@@ -188,12 +193,13 @@ if selected == 'General overview':
 
     col1, col2 = st.columns([6, 1])
     with col1:
+        st.write("\n")
         st.write("**Do you want to know more?** Let´s go to Explore!")
     # clicked = st.button(label='Click here', )
     # if clicked:
     #     st.experimental_set_query_params(selected="Explore")
     with col2:
-        st.image('../images/streamlit/logor.png', width=50)
+        st.image('../images/streamlit/logor.png', width=40)
 
     st.write("---")
     st.write("¹Greenhouse gas emissions: is a unit in CO2eq that converts the impact of different kinds of greenhouse gases, like methane and nitrous oxide, to the equivalent amount of carbon dioxide.")
@@ -202,7 +208,7 @@ if selected == 'General overview':
 if selected == 'Explore':
 
     st.subheader("Discover your food choices environmental impact 🌱")
-    st.write("To find out the climate impact of what you eat and drink, choose from one of the items in our calculator 🡳")
+    st.write("To find out the climate impact of what you eat and drink, **choose from one of the items in our calculator** 🡳")
     # Food specifications
     food_l = ["Take your pick!", "Meat", "Vegetable oils", "Soy", "Dark Chocolate", "Sugar", "Coffee", "Vegetables", "Fruits", "Rice"]
     opcion = st.selectbox('Which food are you interested in the most?', food_l)
@@ -210,14 +216,14 @@ if selected == 'Explore':
 
     if opcion == 'Soy':
 
+        st.subheader("Let's dive into the soy world")
+
         st.write("**Fun fact**: There are health benefits to soy, which include providing a good source of *heart-healthy fats*, *fiber*, *potassium* and *iron*.")
         st.write("But not everything is sunshine 🌞 and rainbows 🌈. Soy is one of the main causes of deforestation in South America. But, what for is destined the soybean production?")
 
         # Comparative graphic between soybeans for food, feed or processed
         # new df filtered from 2000
         df = soy[soy['Year'].dt.year >= 2000]
-
-        # Sum of values
         totals = df[['Food', 'Feed', 'Processed']].sum()
 
         # Colors and labels
@@ -227,49 +233,22 @@ if selected == 'Explore':
         # Create figure
         fig = go.Figure()
 
-        # Crear las barras animadas
-        for i in range(len(labels)):
-            fig.add_trace(
-                go.Bar(
-                    x=[labels[i]],
-                    y=[0],
-                    marker=dict(color=colors[i]),
-                    name=labels[i],
-                    hovertemplate=f'{labels[i]}: 0',
-                )
+        # Create vertical bars
+        fig.add_trace(
+            go.Bar(
+                x=labels,
+                y=totals,
+                marker=dict(color=colors),
+                name='Total emissions',
+                hovertemplate=[f'{label}: {value}' for label, value in zip(labels, totals)],
             )
+        )
 
-        # Create frames for animation
-        frames = []
-        for i in range(len(labels)):
-            frame_data = df[labels[i]].tolist()  # Get data for current category
-            frame = go.Frame(
-                data=[go.Bar(
-                    x=[labels[i]],
-                    y=[frame_data[j]],
-                    marker=dict(color=colors[i]),
-                    hovertemplate=f'{labels[i]}: {frame_data[j]}'
-                ) for j in range(len(frame_data))]
-            )
-            frames.append(frame)
-
-        # Configurar el diseño del gráfico
+        # Configure chart layout
         fig.update_layout(
-            updatemenus=[
-                dict(
-                    type='buttons',
-                    showactive=False,
-                    font=dict(color='#59412f'),
-                    buttons=[dict(
-                        label='Play',
-                        method='animate',
-                        args=[None, {'frame': {'duration': 500, 'redraw': True}, 'fromcurrent': True}]
-                    )]
-                )
-            ],
-            title='Total emissions by category',
+            title='Total emissions by soy use',
             xaxis=dict(
-                title='Category',
+                title='Soy use',
                 title_font=dict(color='#59412f')
             ),
             yaxis=dict(
@@ -282,23 +261,25 @@ if selected == 'Explore':
             showlegend=False
         )
 
+        # Configure axis
+        fig.update_yaxes(tickfont=dict(color='#6C584C'))
+        fig.update_xaxes(tickfont=dict(color='#7E675E'))
 
-        # Config exe y
-        fig.update_yaxes(
-            tickfont=dict(color='#6C584C'))
-
-        # Congif exe x
-        fig.update_xaxes(
-            tickfont=dict(color='#7E675E'))
-
-        # Mostrar el gráfico animado
+        # Display chart
         st.plotly_chart(fig, use_container_width=True)
 
+        st.write("**Legend**:")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.write("- Food: human consume.")
+        with col2: 
+            st.write("- Feed: animal feed.")
+        with col3:
+            st.write("- Processed: used for productions.")
+        st.write("**Wow! The difference between them is surprising**. The processed soy is the main destined use by far. Some examples from what soy can be processed are **soy oil** or **soybean cake** for basic animal feed protein")
+        st.write("---")
 
-
-        st.write("Wow! The difference between them are surprising. Some examples from what soy can be processed are soy oil and soybean cake for basic animal feed protein")
-
-        st.subheader("Where are these macroharvest?")
+        st.subheader("What is the surface area covered by this macroharvest?")
 
 
         # Graphic: hectares by country
@@ -363,16 +344,17 @@ if selected == 'Explore':
         fig.update_xaxes(
             tickfont=dict(color='#7E675E'))
         # Show
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, use_container_width=True)
 
-        st.write("In Brazil the production in 2020 was by 370k hectares. That´s the equivalent for 370k football fields or the whole surface of Mexico City")
+        st.write("In **Brazil** the production in 2020 was by **370k hectares**. That´s the equivalent for **370k football fields** or the whole surface of Mexico City")
 
-        st.subheader("The most common soy foods are soy milk and tofu")
+        st.subheader("Check your consume impact 🍽️")
+        st.write("The most common soy foods are **soy milk** and **tofu**")
         # Tofu and soy milk consumption
         col1, col2 = st.columns([1, 2])
         with col1:
             list_soy = ["Choose an option", "Soy milk", "Tofu"]
-            soy_choice = st.selectbox("Let´s check them!", list_soy)
+            soy_choice = st.selectbox("Select one!", list_soy)
         
         with col2:
             # consumption
@@ -402,12 +384,12 @@ if selected == 'Explore':
                     # Result
                     st.write(f"Over an entire year your consumption of soy milk is adding {math.ceil(total_emissions* 365)}kg greenhouse gas emissions.")
                     # GIF car
-                    with open(r'..\images\stramlit\car.gif', 'rb') as r_ima:
+                    with open(r'..\images\streamlit\car.gif', 'rb') as r_ima:
                         contents = r_ima.read()
                     data_url = base64.b64encode(contents).decode("utf-8")
                     image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
                     st.markdown(image_html, unsafe_allow_html=True)
-
+                    st.write('\n')
                     st.markdown("That's the equivalent of driving **311km in car**")
 
                 if choice == "1-2 times a week":
@@ -419,12 +401,12 @@ if selected == 'Explore':
                     # Result
                     st.write(f"Over an entire year your consumption of soy milk is adding {math.ceil(total_emissions* 78)}kg greenhouse gas emissions.")
                     # GIF car
-                    with open(r'..\images\stramlit\car.gif', 'rb') as r_ima:
+                    with open(r'..\images\streamlit\car.gif', 'rb') as r_ima:
                         contents = r_ima.read()
                     data_url = base64.b64encode(contents).decode("utf-8")
                     image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
                     st.markdown(image_html, unsafe_allow_html=True)
-
+                    st.write('\n')
                     st.markdown("That's the equivalent of driving **69km in car**")
 
                 if choice == "Never":
@@ -436,12 +418,12 @@ if selected == 'Explore':
                     # Result
                     st.write(f"That's interesting, eventhough over an entire year the world average consumption of soy milk is adding {math.ceil(total_emissions* 42)}kg greenhouse gas emissions.")
                     # GIF car
-                    with open(r'..\images\stramlit\car.gif', 'rb') as r_ima:
+                    with open(r'..\images\streamlit\car.gif', 'rb') as r_ima:
                         contents = r_ima.read()
                     data_url = base64.b64encode(contents).decode("utf-8")
                     image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
                     st.markdown(image_html, unsafe_allow_html=True)
-
+                    st.write('\n')
                     st.markdown("That's the equivalent of driving **177km in car**")
             
         # TOFU
@@ -467,12 +449,12 @@ if selected == 'Explore':
                     st.write(f"Over an entire year your consumption of tofu is adding {math.ceil(total_emissions* 365)}kg greenhouse gas emissions.")  
 
                     # GIF car
-                    with open(r'..\images\stramlit\car.gif', 'rb') as r_ima:
+                    with open(r'..\images\streamlit\car.gif', 'rb') as r_ima:
                         contents = r_ima.read()
                     data_url = base64.b64encode(contents).decode("utf-8")
                     image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
                     st.markdown(image_html, unsafe_allow_html=True)
-
+                    st.write('\n')
                     st.markdown("That's the equivalent of driving **753km in car**")
 
                 if choice == "1-2 times a week":
@@ -484,12 +466,12 @@ if selected == 'Explore':
                     # Result
                     st.write(f"Over an entire year your consumption of tofu is adding {math.ceil(total_emissions* 78)}kg greenhouse gas emissions.")
                     # GIF car
-                    with open(r'..\images\stramlit\car.gif', 'rb') as r_ima:
+                    with open(r'..\images\streamlit\car.gif', 'rb') as r_ima:
                         contents = r_ima.read()
                     data_url = base64.b64encode(contents).decode("utf-8")
                     image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
                     st.markdown(image_html, unsafe_allow_html=True)
-
+                    st.write('\n')
                     st.markdown("That's the equivalent of driving **160km in car**")
 
                 if choice == "Never":
@@ -501,16 +483,17 @@ if selected == 'Explore':
                     # Result
                     st.write(f"That's interesting, eventhough over an entire year the world average consumption of tofu is adding {math.ceil(total_emissions* 60)}kg greenhouse gas emissions.")
                     # GIF car
-                    with open(r'..\images\stramlit\car.gif', 'rb') as r_ima:
+                    with open(r'..\images\streamlit\car.gif', 'rb') as r_ima:
                         contents = r_ima.read()
                     data_url = base64.b64encode(contents).decode("utf-8")
                     image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
                     st.markdown(image_html, unsafe_allow_html=True)
-
+                    st.write('\n')
                     st.markdown("That's the equivalent of driving **822km in car**")
 
 
     elif opcion == 'Vegetable oils':
+        st.subheader("Let's dive into the vegetable oils world")
 
         st.write("⚡**Fun fact**⚡: There are numerous types of vegetable oils available, each derived from different plant sources. Some common examples include olive oil, canola oil, soybean oil, sunflower oil, and coconut oil. Each oil has its own distinct flavor, smoke point, and nutritional profile.")
         st.write("But not everything is sunshine 🌞 and rainbows 🌈. The production of vegetable oils can have both positive and negative environmental impacts. On the positive side, vegetable oils derived from sustainable sources, such as palm oil from certified plantations, can help reduce deforestation and preserve biodiversity. On the negative side, the expansion of oil palm plantations, particularly in tropical regions, has been associated with deforestation and habitat loss for endangered species.")
@@ -565,7 +548,7 @@ if selected == 'Explore':
         # Create the radial chart for the selected oils
         fig = go.Figure()
 
-        col_lin = ["#FFAB00", "#827717", "#AFB42B", "#BF360C", "#FF3D00"]
+        col_lin = ["#FFAB00", "#827717", "#FF3D00", "#BF360C", "#FF3D00"]
         col_fil = ["rgba(255, 171, 0, 0.5)", "rgba(130, 119, 23, 0.5)", "rgba(175, 180, 43, 0.5)", "rgba(191, 54, 12, 0.5)", "rgba(255, 61, 0, 0.5)"]
 
         for i, oil in enumerate(selected_oils):
@@ -591,15 +574,15 @@ if selected == 'Explore':
         st.plotly_chart(fig, use_container_width=True, theme='streamlit')
 
     elif opcion == 'Meat':
-
-        st.subheader("Is animal protein better that vegetal protein?")
+        st.subheader("Let's dive into the meat world")
+        st.write("Is animal protein better that vegetal protein?")
 
 
 
 
     elif opcion == 'Take your pick!':
 
-        ruta = r'../images/streamlit/logov.png'
+        ruta = r'../images/streamlit/table.png'
         st.image(ruta, width=270)
 
 
