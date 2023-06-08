@@ -2,7 +2,9 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 
 
-from notebook.funciones import *
+import sys
+import os
+from funciones import *
 import pandas as pd
 import numpy as np
 import math
@@ -22,11 +24,11 @@ from matplotlib.animation import FuncAnimation
 st.set_page_config(page_title="Go vegan?", page_icon=":avocado:", layout="wide", initial_sidebar_state="expanded")
 
 
-fod = pd.read_csv(r'.\data\Food\food_clean.csv')
-soy = pd.read_csv(r'.\data\Soy\soy_clean.csv', parse_dates=['Year'])
-oil_prod = pd.read_csv(r'.\data/Palm/oil_prod_clean.csv')
-oil_yield = pd.read_csv(r'.\data/Palm/oil_yield_clean.csv')
-pop = pd.read_csv(r'.\data/Population/population_clean.csv')
+fod = pd.read_csv(r'..\data\Food\food_clean.csv')
+soy = pd.read_csv(r'..\data\Soy\soy_clean.csv', parse_dates=['Year'])
+oil_prod = pd.read_csv(r'..\data/Palm/oil_prod_clean.csv')
+oil_yield = pd.read_csv(r'..\data/Palm/oil_yield_clean.csv')
+pop = pd.read_csv(r'..\data/Population/population_clean.csv')
 
 # filtro para sacar lista de sólo paises
 todos = soy['Entity'].value_counts().index.to_list()
@@ -41,13 +43,12 @@ with open('style.css') as f:
         unsafe_allow_html=True,
     )
 
-# Sidebar
-
+# Sidebar menu
 with st.sidebar:
     
-    opcions = ['Home', 'General overview', 'Explore', 'About us']
+    opcions = ['Home', 'General overview', 'Explore', 'Recomendations', 'About us']
     selected = option_menu("Menu", opcions, 
-        icons=['house', 'folder', 'graph-up', 'flower2'], menu_icon="cast", default_index=0)
+        icons=['house', 'folder', 'graph-up', 'eye', 'flower2'], menu_icon="cast", default_index=0)
 
     with st.spinner("Loading..."):
         time.sleep(3)
@@ -56,36 +57,30 @@ with st.sidebar:
 
 if selected == 'Home':
 
-    container = st.container()
-    container.markdown(
-        """
-        <div style="display: flex; justify-content: center;">
-            <img src="Go-vegan-\images\food.png" alt="Imagen" style="max-width: 100%;">
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-    st.header("Are you aware of your impact?")
+    col1, col2 = st.columns([0.55, 1.5])
+    with col1:
+        st.image('../images/streamlit/logof.png', width=210)
+    with col2:
+        st.header("Are you aware of your impact?")
+    st.write("---")
 
     col1, col2 = st.columns([2.75, 1])
 
     with col1:
         st.write("🌱🌍 Dive into the Impact of Your Food Choices 🍽️")
-        st.write("Climate change is a pressing concern that demands our attention. As global warming becomes an imminent issue in many countries, the scarcity of water looms, and our reliance on fossil fuels reaches a critical point.")
-        st.write("But fear not! We are determined to combat these challenges, taking strides forward every day. And guess what? One of the most effective steps we can take is right in front of us—our diet.")
-        st.write("Did you know that the food we consume daily holds a significant influence over the environment? In a groundbreaking report by the UN's Intergovernmental Panel on Climate Change (IPCC), it was revealed that the high consumption of meat and dairy in the Western world is contributing to global warming. It's time for us to reassess our choices and embrace a more eco-friendly approach to eating.")
-        st.write("In this app, we delve into the critical questions: Which foods have the greatest environmental impact? How can we make our diet more sustainable? Join us on this adventure as we uncover the answers and discover the power of veganism as the ultimate eco-friendly dietary choice.")
-        st.write("Together, we can make a positive change—one plate at a time. Let's dive in and explore the fascinating world of sustainable food choices while having fun along the way. Get ready to embark on a journey of taste, consciousness, and environmental responsibility. The future is in our hands, and it starts with what we put on our plates.")
+        st.write("Climate change is a pressing concern that demands our attention. As **global warming** becomes an imminent issue, the scarcity of water looms and our reliance on fossil fuels reaches a critical point.")
+        st.write("But fear not! We are determined to combat. And guess what? One of the most effective steps we can take is right in front of us—**our diet**.")
+        st.write("Did you know that the food we consume daily holds a significant influence over the environment? In a groundbreaking report by the UN's Intergovernmental Panel on Climate Change (IPCC), it was revealed that the **high consumption of meat and dairy in the Western world is contributing to global warming**. It's time for us to reassess our choices and embrace a more eco-friendly approach to eating.")
+        st.write("In this app, you´ll get to know the emissions, water waste and other info about your usual meals. Join us on this adventure as we uncover the answers and discover the **power of veganism as the ultimate eco-friendly dietary choice**.")
         st.write("Are you ready to discover how veganism can revolutionize your life and help save the planet? Let's get started!")
 
     with col2:
-        ruta = r'./images/food.png'
+        ruta = r'..\images\streamlit\food.png'
         st.image(ruta, clamp=True)
 
 
 if selected == 'General overview':
-    st.subheader("Check the emissions of your food 🌱")
+    st.subheader("Check the emissions of your meals 🌱")
     st.write("**Total greenhouse gas emissions¹** of the most tipical foods around the world. Let´s dive in!")
     st.write("You can compare them by animal or vegetable origin, or you can simply select the specific labels that interest you.")
 
@@ -98,7 +93,7 @@ if selected == 'General overview':
     df_sorted = fod.sort_values('Total_Food_Emissions', ascending=True)
 
     # Lista de colores
-    n_colors = 43  # Número deseado de colores
+    n_colors = 43  
     # palette = sns.color_palette("bright", n_colors)
     palette = ["#FF5722", "#AED581", "#D0ECE7", "#9CCC65", "#C5E1A5", "#FFAB91", "#FFE0B2",  
             "#DCEDC8", "#FF8A65", "#FFCCBC", "#7CB342", "#DCE775", "#FF7043", "#FFAB40", 
@@ -191,7 +186,16 @@ if selected == 'General overview':
 
     st.plotly_chart(fig, theme="streamlit")
 
+    col1, col2 = st.columns([6, 1])
+    with col1:
+        st.write("**Do you want to know more?** Let´s go to Explore!")
+    # clicked = st.button(label='Click here', )
+    # if clicked:
+    #     st.experimental_set_query_params(selected="Explore")
+    with col2:
+        st.image('../images/streamlit/logor.png', width=50)
 
+    st.write("---")
     st.write("¹Greenhouse gas emissions: is a unit in CO2eq that converts the impact of different kinds of greenhouse gases, like methane and nitrous oxide, to the equivalent amount of carbon dioxide.")
 
 
@@ -383,7 +387,7 @@ if selected == 'Explore':
 
             # imagen tofu
             with col1:
-                ruta_imagen = r'.\images\soymilk.png'
+                ruta_imagen = r'..\images\streamlit\soymilk.png'
                 st.image(ruta_imagen, width=160, clamp=True)
                 st.markdown("200ml per serving")
 
@@ -398,7 +402,7 @@ if selected == 'Explore':
                     # Result
                     st.write(f"Over an entire year your consumption of soy milk is adding {math.ceil(total_emissions* 365)}kg greenhouse gas emissions.")
                     # GIF car
-                    with open(r'.\images\car.gif', 'rb') as r_ima:
+                    with open(r'..\images\stramlit\car.gif', 'rb') as r_ima:
                         contents = r_ima.read()
                     data_url = base64.b64encode(contents).decode("utf-8")
                     image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
@@ -415,7 +419,7 @@ if selected == 'Explore':
                     # Result
                     st.write(f"Over an entire year your consumption of soy milk is adding {math.ceil(total_emissions* 78)}kg greenhouse gas emissions.")
                     # GIF car
-                    with open(r'.\images\car.gif', 'rb') as r_ima:
+                    with open(r'..\images\stramlit\car.gif', 'rb') as r_ima:
                         contents = r_ima.read()
                     data_url = base64.b64encode(contents).decode("utf-8")
                     image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
@@ -432,7 +436,7 @@ if selected == 'Explore':
                     # Result
                     st.write(f"That's interesting, eventhough over an entire year the world average consumption of soy milk is adding {math.ceil(total_emissions* 42)}kg greenhouse gas emissions.")
                     # GIF car
-                    with open(r'.\images\car.gif', 'rb') as r_ima:
+                    with open(r'..\images\stramlit\car.gif', 'rb') as r_ima:
                         contents = r_ima.read()
                     data_url = base64.b64encode(contents).decode("utf-8")
                     image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
@@ -448,7 +452,7 @@ if selected == 'Explore':
 
             # imagen tofu
             with col1:
-                ruta_imagen = r'.\images\tofua.png'
+                ruta_imagen = r'..\images\streamlit\tofua.png'
                 st.image(ruta_imagen, width=160, clamp=True)
                 st.markdown("150g per serving")            
 
@@ -463,7 +467,7 @@ if selected == 'Explore':
                     st.write(f"Over an entire year your consumption of tofu is adding {math.ceil(total_emissions* 365)}kg greenhouse gas emissions.")  
 
                     # GIF car
-                    with open(r'.\images\car.gif', 'rb') as r_ima:
+                    with open(r'..\images\stramlit\car.gif', 'rb') as r_ima:
                         contents = r_ima.read()
                     data_url = base64.b64encode(contents).decode("utf-8")
                     image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
@@ -480,7 +484,7 @@ if selected == 'Explore':
                     # Result
                     st.write(f"Over an entire year your consumption of tofu is adding {math.ceil(total_emissions* 78)}kg greenhouse gas emissions.")
                     # GIF car
-                    with open(r'.\images\car.gif', 'rb') as r_ima:
+                    with open(r'..\images\stramlit\car.gif', 'rb') as r_ima:
                         contents = r_ima.read()
                     data_url = base64.b64encode(contents).decode("utf-8")
                     image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
@@ -497,7 +501,7 @@ if selected == 'Explore':
                     # Result
                     st.write(f"That's interesting, eventhough over an entire year the world average consumption of tofu is adding {math.ceil(total_emissions* 60)}kg greenhouse gas emissions.")
                     # GIF car
-                    with open(r'.\images\car.gif', 'rb') as r_ima:
+                    with open(r'..\images\stramlit\car.gif', 'rb') as r_ima:
                         contents = r_ima.read()
                     data_url = base64.b64encode(contents).decode("utf-8")
                     image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
@@ -590,10 +594,13 @@ if selected == 'Explore':
 
         st.subheader("Is animal protein better that vegetal protein?")
 
+
+
+
     elif opcion == 'Take your pick!':
 
-        ruta = r'./images/logonbk.png'
-        st.image(ruta)
+        ruta = r'../images/streamlit/logov.png'
+        st.image(ruta, width=270)
 
 
 
@@ -602,9 +609,65 @@ if selected == 'Explore':
         with st.spinner("Loading..."):
             time.sleep(5)
 
-        st.write("**Ups! There seems to be a problem, please try again later.**")
+        st.write("**⚠️⚠️⚠️ Error 502 ⚠️⚠️⚠️**")
+        st.write("**Ups! There seems to be a problem... Please, try again later.**")
+        st.image('../images/streamlit/tofuangry.png', width=250)
+
+if selected == 'Recomendations':
+
+    st.subheader('What changes are you prepared to take?')
+
+    recom = st.radio(r"Here we guide a few rutine changes to reduce our annual print. Select the options and check them :)",
+    ('Climate-Friendly Food', 'Organic and Sustainable Certifications', 'Waste Reduction*', 'Local Food'))
+
+    if recom == 'Climate-Friendly Food':
+        st.markdown("""**Climate-Friendly Food**:
+            - High-energy and processed foods contribute to more global warming pollution.
+            - The carbon footprint of meat, especially from ruminant animals, is significant due to methane emissions.
+            - Seafood, particularly large fish stocks, contribute to global warming pollution and may contain mercury.
+            
+            Action Steps:
+
+            - Eat lower on the food chain by adding more fruits, vegetables, and grains to your diet and reducing red meat consumption.
+            - Choose locally caught and sustainably managed fish or herbivorous farmed stocks.
+            - Opt for fresh foods with minimal processing and avoid excessive freezing, packaging, and refrigeration.""")
+    elif recom == 'Organic and Sustainable Certifications':
+        st.markdown("""**Organic and Sustainable Certifications**:
+            - Eco-labels like USDA Organic reward environmental performance.
+            - Organic agriculture reduces global warming pollution and avoids synthetic pesticides and fertilizers.
+            
+            Action Steps:
+
+            - Purchase organic and certified foods whenever possible.
+            - Refer to reputable sources like Consumer Reports for guidance on eco-labels.""")
+
+    elif recom == 'Waste Reduction':
+         st.markdown("""**Waste Reduction**:
+            - A significant portion of food produced in the US is wasted, leading to environmental impacts and greenhouse gas emissions.
+            - Food waste in landfills releases methane, a potent heat-trapping gas.
+            Action Steps:
+
+            - Buy and consume foods before they expire to minimize waste.
+            - Compost food waste to reduce greenhouse gas emissions and the need for synthetic fertilizers.""")
+    else:
+        st.markdown("""**Local Food**:
+            - Meals often contain ingredients from multiple foreign countries, with domestically grown produce traveling long distances.
+            - Buying locally reduces pollution and energy use associated with food transportation.
+            Action Steps:
+
+            - Choose local food options and avoid purchasing food imported by airplane.
+            - Consider the environmental significance of food type and production methods.""")
 
 
 if selected == 'About us':
 
     st.header('Who are we?')
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.write("This is a project made in Ironhack to practice all the process of a data analyst. It was processed with Streamlit.")
+    with col2:
+        st.write("Hi! My name is Nerea. I´m a data analyst passioned about social studies.")
+        st.write("You can see more of my work here: ")
+        st.write("[Check my github](https://github.com/NereaRiveiro)")
+    
