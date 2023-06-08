@@ -25,10 +25,10 @@ st.set_page_config(page_title="Go vegan?", page_icon=":avocado:", layout="wide",
 
 
 fod = pd.read_csv('data/Food/food_clean.csv')
-soy = pd.read_csv(r'..\data\Soy\soy_clean.csv', parse_dates=['Year'])
-oil_prod = pd.read_csv(r'..\data/Palm/oil_prod_clean.csv')
-oil_yield = pd.read_csv(r'..\data/Palm/oil_yield_clean.csv')
-pop = pd.read_csv(r'..\data/Population/population_clean.csv')
+soy = pd.read_csv(r'data/Soy/soy_clean.csv', parse_dates=['Year'])
+oil_prod = pd.read_csv(r'data/Palm/oil_prod_clean.csv')
+oil_yield = pd.read_csv(r'data/Palm/oil_yield_clean.csv')
+pop = pd.read_csv(r'data/Population/population_clean.csv')
 
 # filtro para sacar lista de sólo paises
 todos = soy['Entity'].value_counts().index.to_list()
@@ -46,7 +46,7 @@ with open('style.css') as f:
 # Sidebar menu
 with st.sidebar:
     
-    st.image('../images/streamlit/logor.png', width=30)
+    st.image('images/streamlit/logor.png', width=30)
     opcions = ['Home', 'General overview', 'Explore', 'Recomendations', 'About us']
     selected = option_menu("Menu", opcions, 
         icons=['house', 'folder', 'graph-up', 'eye', 'flower2'], menu_icon="cast", default_index=0)
@@ -62,7 +62,7 @@ if selected == 'Home':
     with col1:
         st.write('               ')
     with col2:
-        st.image('../images/streamlit/logof.png', width=210)
+        st.image('images/streamlit/logof.png', width=210)
 
     st.write('\n')    
     st.subheader("Are you aware of your impact?")
@@ -82,7 +82,7 @@ if selected == 'Home':
         st.write('\n')
         st.write('\n')
         st.write("\n")
-        ruta = r'..\images\streamlit\food.png'
+        ruta = r'images/streamlit/food.png'
         st.image(ruta, clamp=True)
 
 
@@ -201,7 +201,7 @@ if selected == 'General overview':
     # if clicked:
     #     st.experimental_set_query_params(selected="Explore")
     with col2:
-        st.image('../images/streamlit/logor.png', width=40)
+        st.image('images/streamlit/logor.png', width=40)
 
     st.write("---")
     st.write("¹Greenhouse gas emissions: is a unit in CO2eq that converts the impact of different kinds of greenhouse gases, like methane and nitrous oxide, to the equivalent amount of carbon dioxide.")
@@ -374,7 +374,7 @@ if selected == 'Explore':
 
             # imagen tofu
             with col1:
-                ruta_imagen = r'..\images\streamlit\soymilk.png'
+                ruta_imagen = r'images/streamlit/soymilk.png'
                 st.image(ruta_imagen, width=160, clamp=True)
                 st.markdown("200ml per serving")
 
@@ -389,7 +389,7 @@ if selected == 'Explore':
                     # Result
                     st.write(f"Over an entire year your consumption of soy milk is adding {math.ceil(total_emissions* 365)}kg greenhouse gas emissions.")
                     # GIF car
-                    with open(r'..\images\streamlit\car.gif', 'rb') as r_ima:
+                    with open(r'images/streamlit/car.gif', 'rb') as r_ima:
                         contents = r_ima.read()
                     data_url = base64.b64encode(contents).decode("utf-8")
                     image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
@@ -406,7 +406,7 @@ if selected == 'Explore':
                     # Result
                     st.write(f"Over an entire year your consumption of soy milk is adding {math.ceil(total_emissions* 78)}kg greenhouse gas emissions.")
                     # GIF car
-                    with open(r'..\images\streamlit\car.gif', 'rb') as r_ima:
+                    with open(r'images/streamlit/car.gif', 'rb') as r_ima:
                         contents = r_ima.read()
                     data_url = base64.b64encode(contents).decode("utf-8")
                     image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
@@ -423,7 +423,7 @@ if selected == 'Explore':
                     # Result
                     st.write(f"That's interesting, eventhough over an entire year the world average consumption of soy milk is adding {math.ceil(total_emissions* 42)}kg greenhouse gas emissions.")
                     # GIF car
-                    with open(r'..\images\streamlit\car.gif', 'rb') as r_ima:
+                    with open(r'images/streamlit/car.gif', 'rb') as r_ima:
                         contents = r_ima.read()
                     data_url = base64.b64encode(contents).decode("utf-8")
                     image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
@@ -439,7 +439,7 @@ if selected == 'Explore':
 
             # imagen tofu
             with col1:
-                ruta_imagen = r'..\images\streamlit\tofua.png'
+                ruta_imagen = r'images/streamlit/tofua.png'
                 st.image(ruta_imagen, width=160, clamp=True)
                 st.markdown("150g per serving")            
 
@@ -454,7 +454,7 @@ if selected == 'Explore':
                     st.write(f"Over an entire year your consumption of tofu is adding {math.ceil(total_emissions* 365)}kg greenhouse gas emissions.")  
 
                     # GIF car
-                    with open(r'..\images\streamlit\car.gif', 'rb') as r_ima:
+                    with open(r'images/streamlit/car.gif', 'rb') as r_ima:
                         contents = r_ima.read()
                     data_url = base64.b64encode(contents).decode("utf-8")
                     image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
@@ -471,7 +471,7 @@ if selected == 'Explore':
                     # Result
                     st.write(f"Over an entire year your consumption of tofu is adding {math.ceil(total_emissions* 78)}kg greenhouse gas emissions.")
                     # GIF car
-                    with open(r'..\images\streamlit\car.gif', 'rb') as r_ima:
+                    with open(r'images/streamlit/car.gif', 'rb') as r_ima:
                         contents = r_ima.read()
                     data_url = base64.b64encode(contents).decode("utf-8")
                     image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
@@ -488,7 +488,7 @@ if selected == 'Explore':
                     # Result
                     st.write(f"That's interesting, eventhough over an entire year the world average consumption of tofu is adding {math.ceil(total_emissions* 60)}kg greenhouse gas emissions.")
                     # GIF car
-                    with open(r'..\images\streamlit\car.gif', 'rb') as r_ima:
+                    with open(r'images/streamlit/car.gif', 'rb') as r_ima:
                         contents = r_ima.read()
                     data_url = base64.b64encode(contents).decode("utf-8")
                     image_html = f'<img src="data:image/gif;base64,{data_url}" alt="car gif" style="width: 150px;">'
@@ -509,7 +509,7 @@ if selected == 'Explore':
             st.write("But not everything is sunshine 🌞 and rainbows 🌈. The production of vegetable oils can have both positive and negative environmental impacts. On the **positive side**, vegetable oils derived from sustainable sources, such as palm oil from certified plantations, can help reduce deforestation and preserve biodiversity. On the **negative side**, the expansion of oil palm plantations, particularly in tropical regions, has been associated with deforestation and habitat loss for endangered species.")
 
         with col2:
-            st.image('../images/streamlit/oils.png')
+            st.image('images/streamlit/oils.png')
 
         # Get the top 10 countries with highest production
         columns = ['Palm', 'Groundnut', 'Cottonseed', 'Coconut', 'Maize']
@@ -612,7 +612,7 @@ if selected == 'Explore':
 
     elif opcion == 'Take your pick!':
 
-        ruta = r'../images/streamlit/table.png'
+        ruta = r'images/streamlit/table.png'
         st.image(ruta, use_column_width=True)
 
 
@@ -638,7 +638,7 @@ if selected == 'Recomendations':
     with col1:
         st.write('               ')
     with col2:
-        st.image('../images/streamlit/logof.png', width=210)
+        st.image('images/streamlit/logof.png', width=210)
 
 
     st.subheader('Are you ready to embrace change?')
