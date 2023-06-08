@@ -62,7 +62,8 @@ if selected == 'Home':
         st.write('               ')
     with col2:
         st.image('../images/streamlit/logof.png', width=210)
-        
+
+    st.write('\n')    
     st.header("Are you aware of your impact?")
     st.write("---")
 
@@ -212,13 +213,13 @@ if selected == 'Explore':
     # Food specifications
     food_l = ["Take your pick!", "Meat", "Vegetable oils", "Soy", "Dark Chocolate", "Sugar", "Coffee", "Vegetables", "Fruits", "Rice"]
     opcion = st.selectbox('Which food are you interested in the most?', food_l)
-    st.write("You´ve chosen", opcion)
+    st.write("---")
 
     if opcion == 'Soy':
 
-        st.subheader("Let's dive into the soy world")
+        st.subheader("Let's dive into the world of soy")
 
-        st.write("**Fun fact**: There are health benefits to soy, which include providing a good source of *heart-healthy fats*, *fiber*, *potassium* and *iron*.")
+        st.write("⚡**Fun fact**: There are health benefits to soy, which include providing a good source of *heart-healthy fats*, *fiber*, *potassium* and *iron*.")
         st.write("But not everything is sunshine 🌞 and rainbows 🌈. Soy is one of the main causes of deforestation in South America. But, what for is destined the soybean production?")
 
         # Comparative graphic between soybeans for food, feed or processed
@@ -493,10 +494,18 @@ if selected == 'Explore':
 
 
     elif opcion == 'Vegetable oils':
-        st.subheader("Let's dive into the vegetable oils world")
+        st.subheader("Let's dive into the world of vegetable oils")
 
-        st.write("⚡**Fun fact**: There are **numerous types of vegetable oils** available, each derived from different plant sources. Some common examples include olive oil, canola oil, soybean oil, sunflower oil, and coconut oil. Each oil has its own distinct **flavor**, **smoke point**, and **nutritional profile**.")
-        st.write("But not everything is sunshine 🌞 and rainbows 🌈. The production of vegetable oils can have both positive and negative environmental impacts. On the **positive side**, vegetable oils derived from sustainable sources, such as palm oil from certified plantations, can help reduce deforestation and preserve biodiversity. On the **negative side**, the expansion of oil palm plantations, particularly in tropical regions, has been associated with deforestation and habitat loss for endangered species.")
+        col1, col2 = st.columns([3, 1])
+        with col1:
+            st.write('\n')
+            st.write("⚡**Fun fact**: There are **numerous types of vegetable oils** available, each derived from different plant sources. Some common examples include olive oil, canola oil, soybean oil, sunflower oil, and coconut oil. Each oil has its own distinct **flavor**, **smoke point**, and **nutritional profile**.")
+            st.write('\n')
+            st.write('\n')
+            st.write("But not everything is sunshine 🌞 and rainbows 🌈. The production of vegetable oils can have both positive and negative environmental impacts. On the **positive side**, vegetable oils derived from sustainable sources, such as palm oil from certified plantations, can help reduce deforestation and preserve biodiversity. On the **negative side**, the expansion of oil palm plantations, particularly in tropical regions, has been associated with deforestation and habitat loss for endangered species.")
+
+        with col2:
+            st.image('../images/streamlit/oils.png')
 
         # Get the top 10 countries with highest production
         columns = ['Palm', 'Groundnut', 'Cottonseed', 'Coconut', 'Maize']
@@ -523,16 +532,17 @@ if selected == 'Explore':
             title='Production Evolution of Palm, Groundnut, Cottonseed, Coconut and Maize',
             xaxis_title='Year',
             yaxis_title='Yield',
-            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
         )
 
+
         # Render the chart using Streamlit
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, theme='streamlit', use_container_width=True)
         st.write("Over the years, we can witness the evolution of **production in terms of hectares** dedicated to oil harvest, with **palm oil** experiencing the most exponential growth. This trend highlights the alarming issue of **deforestation**, as it necessitates larger areas of land for these harvests, resulting in the destruction of native flora.")
         st.write("---")
 
         st.subheader("Emissions comparation between oils")
-        st.write("Discover how each oil type contributes to greenhouse gas emissions and gain valuable insights into their sustainability. Start comparing now and make informed decisions for a greener future!")
+        st.write("Discover how each **oil type** contributes to greenhouse gas emissions and gain valuable insights into their **sustainability**. Start comparing now and make informed decisions for a greener future!")
 
         # Define the data and buttons
         oils = ['Olive Oil', 'Palm Oil', 'Rapeseed Oil', 'Soybean Oil', 'Sunflower Oil']
@@ -569,14 +579,28 @@ if selected == 'Explore':
                 radialaxis=dict(visible=True),
             ),
             showlegend=True,
-            paper_bgcolor='#dcffc4',
+            paper_bgcolor=None,
         )
 
         # Render the chart using Streamlit
         st.plotly_chart(fig, use_container_width=True, theme='streamlit')
 
+        st.write("**Legend**:")
+        col1, col2, col3, col4, col5 = st.columns(5)
+        with col1:
+            st.write("- emissions_processing: CO2e by the processing.")
+        with col2: 
+            st.write("- emissions_packaging: CO2e by the packaging.")
+        with col3:
+            st.write("- emissions_losses: CO2e by losses.")
+        with col4:
+            st.write("- emissions_land_use: CO2e by the harvest.")
+        with col5:
+            st.write("- emissions_farm: CO2e by the farm.")
+
+
     elif opcion == 'Meat':
-        st.subheader("Let's dive into the meat world")
+        st.subheader("Let's dive into the world of meat")
         st.write("Is animal protein better that vegetal protein?")
 
 
@@ -585,60 +609,92 @@ if selected == 'Explore':
     elif opcion == 'Take your pick!':
 
         ruta = r'../images/streamlit/table.png'
-        st.image(ruta, width=270)
+        st.image(ruta, use_column_width=True)
+
 
 
 
     else:
-      
-        with st.spinner("Loading..."):
-            time.sleep(5)
+       
+        col1, col2, col3 = st.columns(3)
 
-        st.write("**⚠️⚠️⚠️ Error 502 ⚠️⚠️⚠️**")
-        st.write("**Ups! There seems to be a problem... Please, try again later.**")
-        st.image('../images/streamlit/tofuangry.png', width=250)
+        with col1:
+           st.write('\n')
+        with col2:
+            with st.spinner("Loading..."):
+                time.sleep(5)
+
+            st.write("**⚠️⚠️⚠️ Error 502 ⚠️⚠️⚠️**")
+            st.write("**Ups! There seems to be a problem... Please, try again later.**")
+            st.image('../images/streamlit/tofuangry.png', width=250)
 
 if selected == 'Recomendations':
 
-    st.subheader('What changes are you prepared to take?')
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col1:
+        st.write('               ')
+    with col2:
+        st.image('../images/streamlit/logof.png', width=210)
+
+
+    st.subheader('Are you ready to embrace change?')
 
     recom = st.radio(r"Here we guide a few rutine changes to reduce our annual print. Select the options and check them :)",
-    ('Climate-Friendly Food', 'Organic and Sustainable Certifications', 'Waste Reduction*', 'Local Food'))
+    ('Climate-Friendly Food', 'Organic and Sustainable Certifications', 'Waste Reduction', 'Local Food'))
 
+    st.write('---')
     if recom == 'Climate-Friendly Food':
-        st.markdown("""**Climate-Friendly Food**:
+
+        st.write('\n')
+        st.markdown("""
+            🥦**Climate-Friendly Food**")
             - High-energy and processed foods contribute to more global warming pollution.
             - The carbon footprint of meat, especially from ruminant animals, is significant due to methane emissions.
-            - Seafood, particularly large fish stocks, contribute to global warming pollution and may contain mercury.
-            
-            Action Steps:
+            - Seafood, particularly large fish stocks, contribute to global warming pollution and may contain mercury.""")
+        st.write('\n')
+        st.write('\n')
+        st.markdown("""
+            ✊🏼**Action Steps**:
 
             - Eat lower on the food chain by adding more fruits, vegetables, and grains to your diet and reducing red meat consumption.
             - Choose locally caught and sustainably managed fish or herbivorous farmed stocks.
             - Opt for fresh foods with minimal processing and avoid excessive freezing, packaging, and refrigeration.""")
     elif recom == 'Organic and Sustainable Certifications':
-        st.markdown("""**Organic and Sustainable Certifications**:
+        st.markdown("""
+            ♻️**Organic and Sustainable Certifications**:
             - Eco-labels like USDA Organic reward environmental performance.
-            - Organic agriculture reduces global warming pollution and avoids synthetic pesticides and fertilizers.
-            
-            Action Steps:
+            - Organic agriculture reduces global warming pollution and avoids synthetic pesticides and fertilizers.""")
+        st.write('\n')
+        st.write('\n')
+        st.markdown("""
+            ✊🏼**Action Steps**:
 
             - Purchase organic and certified foods whenever possible.
             - Refer to reputable sources like Consumer Reports for guidance on eco-labels.""")
 
     elif recom == 'Waste Reduction':
-         st.markdown("""**Waste Reduction**:
+        st.write('\n')
+        st.markdown("""
+            🔅**Waste Reduction**:
             - A significant portion of food produced in the US is wasted, leading to environmental impacts and greenhouse gas emissions.
-            - Food waste in landfills releases methane, a potent heat-trapping gas.
-            Action Steps:
+            - Food waste in landfills releases methane, a potent heat-trapping gas.""")
+        st.write('\n')
+        st.write('\n')
+        st.markdown("""
+            ✊🏼**Action Steps**:
 
             - Buy and consume foods before they expire to minimize waste.
             - Compost food waste to reduce greenhouse gas emissions and the need for synthetic fertilizers.""")
     else:
-        st.markdown("""**Local Food**:
+        st.write('\n')
+        st.markdown("""
+            🌾**Local Food**:
             - Meals often contain ingredients from multiple foreign countries, with domestically grown produce traveling long distances.
-            - Buying locally reduces pollution and energy use associated with food transportation.
-            Action Steps:
+            - Buying locally reduces pollution and energy use associated with food transportation.""")
+        st.write('\n')
+        st.write('\n')
+        st.markdown("""
+            ✊🏼**Action Steps**:
 
             - Choose local food options and avoid purchasing food imported by airplane.
             - Consider the environmental significance of food type and production methods.""")
