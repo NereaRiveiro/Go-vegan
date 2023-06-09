@@ -623,7 +623,7 @@ if selected == 'Explore':
         plt.xticks(rotation=90)
 
         # Play
-        st.pyplot(fig)
+        st.pyplot(fig, theme='streamlit', use_container_width=True)
 
 
         st.write("---")
@@ -650,7 +650,7 @@ if selected == 'Explore':
         ax.axis("equal")
 
         # Play
-        st.pyplot(fig)
+        st.pyplot(fig, theme='streamlit', use_container_width=True)
 
     elif opcion == 'Take your pick!':
 
