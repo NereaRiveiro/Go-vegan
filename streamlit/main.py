@@ -611,11 +611,12 @@ if selected == 'Explore':
         prot_sorted = prot.sort_values('Emissions_100g', ascending=False)
         
         plt.style.use("seaborn")
+        plt.rcParams['figure.facecolor'] = None
 
         # Bar chart
         fig, ax = plt.subplots(figsize=(10, 6))
-        ax.bar(prot_sorted["Entity"], prot_sorted["Emissions_100g"])
-        ax.set_xlabel("Food Items")
+        colors = plt.cm.viridis(range(len(prot_sorted)))  # Generate different colors for bars
+        ax.bar(prot_sorted["Entity"], prot_sorted["Emissions_100g"], color=colors)
         ax.set_ylabel("Greenhouse Emissions (Emissions_100g)")
         ax.set_title("Comparison of Greenhouse Emissions per Food")
 
@@ -623,7 +624,7 @@ if selected == 'Explore':
         plt.xticks(rotation=90)
 
         # Play
-        st.pyplot(fig, theme='streamlit', use_container_width=True)
+        st.pyplot(fig, use_container_width=True)
 
 
         st.write("---")
@@ -650,7 +651,7 @@ if selected == 'Explore':
         ax.axis("equal")
 
         # Play
-        st.pyplot(fig, theme='streamlit', use_container_width=True)
+        st.pyplot(fig, use_container_width=True)
 
     elif opcion == 'Take your pick!':
 
