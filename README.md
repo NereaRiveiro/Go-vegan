@@ -1,7 +1,5 @@
 # Go vegan?
 
-## ETL y visualización de datos
-
 ![Alt text](images/streamlit/logof.png)
 
 ## Índice
