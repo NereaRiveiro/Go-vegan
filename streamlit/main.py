@@ -53,10 +53,11 @@ with st.sidebar:
     st.image('images/streamlit/logor.png', width=30)
     opcions = ['Home', 'General overview', 'Explore', 'Recomendations', 'About us']
     selected = option_menu("Menu", opcions, 
-        icons=['house', 'folder', 'graph-up', 'eye', 'flower2'], menu_icon="cast", default_index=0)
+        icons=['house', 'folder', 'graph-up', 'eye', 'flower2'], menu_icon="cast", default_index=0,
+        styles={"nav-link-selected" : {"background-color": "#BD7250"}})
 
-    with st.spinner("Loading..."):
-        time.sleep(2)
+    # with st.spinner("Loading..."):
+    #     time.sleep(2)
 
 
 
@@ -214,7 +215,7 @@ if selected == 'Explore':
     st.subheader("Discover your food choices environmental impact 🌱")
     st.write("To find out the climate impact of what you eat and drink, **choose from one of the items in our calculator** 🡳")
     # Food specifications
-    food_l = ["Take your pick!", "Meat", "Vegetable oils", "Soy", "Dark Chocolate", "Sugar", "Coffee", "Vegetables", "Fruits", "Rice"]
+    food_l = ["Take your pick!", "Vegetable oils", "Soy", "Meat", "Dark Chocolate", "Sugar", "Coffee", "Fruits", "Rice"]
     opcion = st.selectbox('Which food are you interested in the most?', food_l)
     st.write("---")
 
