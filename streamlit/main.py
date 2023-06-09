@@ -607,25 +607,23 @@ if selected == 'Explore':
         st.subheader("Let's dive into the world of meat")
         st.write("Is animal protein better that vegetal protein?")
 
-        # Sort the dataframe by greenhouse emissions in descending order
+        # Sort 
         prot_sorted = prot.sort_values('Emissions_100g', ascending=False)
+        
+        plt.style.use("seaborn")
 
-        # Set the figure size
-        plt.figure(figsize=(10, 6))
+        # Bar chart
+        fig, ax = plt.subplots(figsize=(10, 6))
+        ax.bar(prot_sorted["Entity"], prot_sorted["Emissions_100g"])
+        ax.set_xlabel("Food Items")
+        ax.set_ylabel("Greenhouse Emissions (Emissions_100g)")
+        ax.set_title("Comparison of Greenhouse Emissions per Food")
 
-        # Create the bar chart
-        plt.bar(prot_sorted['Entity'], prot_sorted['Emissions_100g'])
-
-        # Set the labels and title
-        plt.xlabel('Food')
-        plt.ylabel('Greenhouse Emissions (per 100g)')
-        plt.title('Comparison of Greenhouse Emissions for Different Foods')
-
-        # Rotate the x-axis labels for better readability
+        # Rotate labels 
         plt.xticks(rotation=90)
 
-        # Display the chart
-        plt.show()
+        # Play
+        st.pyplot(fig)
 
 
         st.write("---")
@@ -634,6 +632,25 @@ if selected == 'Explore':
 
         st.markdown("""The chart provides a visual representation of the greenhouse emissions (Emissions_100g) for each food item in the "prot" dataframe. By comparing the heights of the bars, it becomes evident that certain meat products have significantly higher emissions compared to non-meat alternatives. """)
 
+        st.markdown("---")
+
+        # Sort and top5
+        prot_sorted = prot.sort_values(by="Emissions_100g", ascending=False)
+        top_5_emissions = prot_sorted.head(5)
+        total_emissions = top_5_emissions["Emissions_100g"].sum()
+
+        # Percentage emissions
+        top_5_emissions["Emissions_Percentage"] = (top_5_emissions["Emissions_100g"] / total_emissions) * 100
+        plt.style.use("seaborn")
+
+        # Pie chart
+        fig, ax = plt.subplots(figsize=(8, 8))
+        ax.pie(top_5_emissions["Emissions_Percentage"], labels=top_5_emissions["Entity"], autopct="%1.1f%%", startangle=90)
+        ax.set_title("Distribution of Greenhouse Emissions for Top 5 Food Items")
+        ax.axis("equal")
+
+        # Play
+        st.pyplot(fig)
 
     elif opcion == 'Take your pick!':
 
