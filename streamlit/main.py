@@ -605,13 +605,16 @@ if selected == 'Explore':
 
     elif opcion == 'Meat':
         st.subheader("Let's dive into the world of meat")
-        st.write("Is animal protein better that vegetal protein?")
+
+        st.write("⚡**Fun fact**: Contrary to popular belief, the source of protein does not determine its **quality** or **nutritional value**. Animal protein is often considered superior to plant protein, but this is a misconception. Both animal and plant-based protein can provide **essential amino acids** necessary for our bodies.")
+
+        st.write("Is animal protein more eco that vegetal protein?")
+
 
         # Sort 
         prot_sorted = prot.sort_values('Emissions_100g', ascending=False)
         
         plt.style.use("seaborn")
-        plt.rcParams['figure.facecolor'] = None
 
         # Bar chart
         fig, ax = plt.subplots(figsize=(10, 6))
@@ -635,6 +638,7 @@ if selected == 'Explore':
 
         st.markdown("---")
 
+        st.subheader("Which proteins has the highest percentage of total emissions?")
         # Sort and top5
         prot_sorted = prot.sort_values(by="Emissions_100g", ascending=False)
         top_5_emissions = prot_sorted.head(5)
