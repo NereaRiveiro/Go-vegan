@@ -21,38 +21,22 @@ Con este proyecto se propone la práctica del proceso de análisis de datos. Par
 
 Para poder acceder a la web dejamos el siguiente enlace:
 
-- [Mapa](https://nereariveiro-go-vegan--streamlitmain-ky4jxb.streamlit.app/)
+[Website Go vegan?](https://nereariveiro-go-vegan--streamlitmain-ky4jxb.streamlit.app/)
 
 ## 🏔️ Objetivo:<a name="objetivo"/>
 
-El cambio climático es una preocupación constante en el panorama actual, cada día vemos cómo las consecuencias marcan nuestro día a día y está en nuestras manos el cambio. Por ello, nos hemos plantea
+El cambio climático es una preocupación constante en el panorama actual, vemos cómo las consecuencias marcan nuestro día a día y está en nuestras manos el cambio. Por ello, nos hemos planteado las siguientes duadas:
 
-- ¿En qué zona se encuentran las cumbres?
-- ¿Cuál es la montaña con más riesgo de fallecimiento?
-- ¿Según qué época es mas letal subirlas? ¿Y cada una de ellas?
-- ¿Hay alguna nacionalidad que se pone más en riesgo al intentar llegar a la cumbre?
-- ¿Cuáles son las causas de muerte más comunes?
-- ¿Puede haber alguna relación entre la causa de muerte y la nacionalidad?
+- ¿La dieta influye en nuestro impacto?
+- ¿Qué alimentos son más dañinos para el medioambiente?
+- ¿Hay forma de medir cuánto afectamos al ecosistema por nuestro consumo?
+- ¿Dependiendo del origen de nuestros alimentos varía la contaminación?
+- ¿Cuáles son los alimentos que más recursos gastan?
 
 
 ## 🌀 Análisis:<a name="analisis"/>
 
-En primer lugar, hemos decido crear un mapa para situar cada una de las cumbres de forma directa.
-
-![dashboard](./images/map.png)
-
-En el siguiente dashboard podemos observar un resumen del conjunto total de los datos. Contiene un slider con el que se puede seleccionar el rango de años del cual queremos obtener la información. Según ello, se puede saber cuáles fueron los meses con más fallecimientos, las cinco causas de muerte más habituales, en qué montaña ha fallecido más gente y de qué diez nacionalidades eran esas personas.
-
-La imagen muestra esos resultados filtrados desde el 1980 al 2003.
-
-![dashboard](./images/5003.png)
-
-
-El segundo dashboard dashboard lo hemos enfocado al análisis de cada una de las cumbres por separado. Para ello hemos creado un selector interactivo mediante el cual se puede elegir la montaña deseada. De ella obtendremos la información de su altitiud, su localización en el mapa, cuántos fallecidos hay en total, en qué meses han ocurrido los desastres y cuáles han sido las siete causas más comunes.
-
-En esta imagen podemos ver toda esta selección de la montaña K2, conocida por ser la más peligrosa.
-
-![dashboard](./images/k2.png)
+En primer lugar, 
 
 
 

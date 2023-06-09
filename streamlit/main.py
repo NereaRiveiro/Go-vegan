@@ -32,6 +32,7 @@ soy = pd.read_csv(r'data/Soy/soy_clean.csv', parse_dates=['Year'])
 oil_prod = pd.read_csv(r'data/Palm/oil_prod_clean.csv')
 oil_yield = pd.read_csv(r'data/Palm/oil_yield_clean.csv')
 pop = pd.read_csv(r'data/Population/population_clean.csv')
+prot = pd.read_csv('data/Protein/protein_clean.csv')
 
 # filtro para sacar lista de sólo paises
 todos = soy['Entity'].value_counts().index.to_list()
@@ -67,7 +68,7 @@ if selected == 'Home':
     with col2:
         st.image('images/streamlit/logof.png', width=210)
 
-    st.write('\n')    
+    avs.add_vertical_space(1)    
     st.subheader("Are you aware of your impact?")
     avs.add_vertical_space(1)
 
@@ -606,7 +607,32 @@ if selected == 'Explore':
         st.subheader("Let's dive into the world of meat")
         st.write("Is animal protein better that vegetal protein?")
 
+        # Sort the dataframe by greenhouse emissions in descending order
+        prot_sorted = prot.sort_values('Emissions_100g', ascending=False)
 
+        # Set the figure size
+        plt.figure(figsize=(10, 6))
+
+        # Create the bar chart
+        plt.bar(prot_sorted['Entity'], prot_sorted['Emissions_100g'])
+
+        # Set the labels and title
+        plt.xlabel('Food')
+        plt.ylabel('Greenhouse Emissions (per 100g)')
+        plt.title('Comparison of Greenhouse Emissions for Different Foods')
+
+        # Rotate the x-axis labels for better readability
+        plt.xticks(rotation=90)
+
+        # Display the chart
+        plt.show()
+
+
+        st.write("---")
+
+        st.markdown("""The results of the previous bar chart highlight an important finding: meat products tend to have higher greenhouse emissions compared to other food items. This observation aligns with existing knowledge about the environmental impact of meat production.""")
+
+        st.markdown("""The chart provides a visual representation of the greenhouse emissions (Emissions_100g) for each food item in the "prot" dataframe. By comparing the heights of the bars, it becomes evident that certain meat products have significantly higher emissions compared to non-meat alternatives. """)
 
 
     elif opcion == 'Take your pick!':
