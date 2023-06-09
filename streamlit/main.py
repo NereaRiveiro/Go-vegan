@@ -617,17 +617,15 @@ if selected == 'Explore':
         plt.style.use("seaborn")
 
         # Bar chart
-        fig, ax = plt.subplots(figsize=(10, 6))
-        colors = plt.cm.viridis(range(len(prot_sorted)))  # Generate different colors for bars
-        ax.bar(prot_sorted["Entity"], prot_sorted["Emissions_100g"], color=colors)
-        ax.set_ylabel("Greenhouse Emissions (Emissions_100g)")
-        ax.set_title("Comparison of Greenhouse Emissions per Food")
+        colors = px.colors.sequential.Viridis[:len(prot_sorted)]
+        fig = px.bar(prot_sorted, x='Entity', y='Emissions_100g', color=prot_sorted["Entity"], color_discrete_sequence=colors, 
+             labels={'Emissions_100g': 'Greenhouse Emissions (Emissions_100g)'}, title='Comparison of Greenhouse Emissions per Food')
 
         # Rotate labels 
-        plt.xticks(rotation=90)
+        fig.update_layout(xaxis_tickangle=-45)
 
         # Play
-        st.pyplot(fig, use_container_width=True)
+        st.plotly_chart(fig, theme='streamlit', use_container_width=True)
 
 
         st.write("---")
@@ -645,17 +643,13 @@ if selected == 'Explore':
         total_emissions = top_5_emissions["Emissions_100g"].sum()
 
         # Percentage emissions
-        top_5_emissions["Emissions_Percentage"] = (top_5_emissions["Emissions_100g"] / total_emissions) * 100
-        plt.style.use("seaborn")
+        top_5_emissions = prot.sort_values('Emissions_100g', ascending=False).head(5)
 
         # Pie chart
-        fig, ax = plt.subplots(figsize=(8, 8))
-        ax.pie(top_5_emissions["Emissions_Percentage"], labels=top_5_emissions["Entity"], autopct="%1.1f%%", startangle=90)
-        ax.set_title("Distribution of Greenhouse Emissions for Top 5 Food Items")
-        ax.axis("equal")
+        fig = px.pie(top_5_emissions, values='Emissions_100g', names='Entity', title='Distribution of Greenhouse Emissions for Top 5 Food Items')
 
         # Play
-        st.pyplot(fig, use_container_width=True)
+        st.plotly_chart(fig, theme='streamlit', use_container_width=True)
 
     elif opcion == 'Take your pick!':
 
