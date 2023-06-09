@@ -13,17 +13,17 @@
 
 ## 🥦 Descripción:<a name="descripcion"/>
 
-Proyecto ETL y visualización como Data Analyst en Ironhack. 
+Proyecto de ETL y visualización como Data Analyst en Ironhack. 
 
-Con este proyecto se propone la práctica del proceso de análisis de datos. Para ello hemos creado una web interactiva mediante la que el usuario puede medir su impacto ecológico según su alimentación.
+Con este proyecto se propone la práctica del proceso de análisis de datos. Para ello, hemos creado una web interactiva mediante la que el usuario puede medir su impacto ecológico según su alimentación, comparar alternativas a su dieta y obtener recomendaciones según preferencias.
 
-Para poder acceder a la web dejamos el siguiente enlace:
+En el siguiente enlace se da acceso a la web:
 
 [Website Go vegan?](https://nereariveiro-go-vegan--streamlitmain-ky4jxb.streamlit.app/)
 
 ## 🍑 Objetivo:<a name="objetivo"/>
 
-El cambio climático es una preocupación constante en el panorama actual, vemos cómo las consecuencias marcan nuestro día a día y está en nuestras manos el cambio. Así, nos hemos planteado las siguientes duadas:
+El cambio climático es una preocupación constante en el panorama actual, vemos cómo las consecuencias marcan nuestro día a día y empieza a sonar la cuenta atrás. Pero, ¿y si podemos aportar a la lucha con algo tan costumbrista como nuestra dieta?. Mucha gente se hace preguntas al aire sobre la viabilidad de un mundo con una alimentanción vegetal, la calidad de la proteína verde versus la animal o si las plantaciones tienen tanto impacto como las granjas. Así, nos hemos planteado las siguientes duadas:
 
 - ¿La dieta influye en nuestro impacto?
 - ¿Qué alimentos son más dañinos para el medioambiente?
@@ -34,9 +34,9 @@ El cambio climático es una preocupación constante en el panorama actual, vemos
 
 ## 🥑 Visualización:<a name="visualizacion"/>
 
-Hemos usado Streamlit como herramienta para crear una web mediante la cual el usuario pueda ir personalizando la búsqueda de información a su criterio y darle paso a que genere sus propias conclusiones. 
+Para el desarrollo de la web hemos usado Streamlit, en ella el usuario puede personalizar la búsqueda de información a su criterio y se le da paso a que genere sus propias conclusiones. 
 
-A continuación dejo una demostración:
+Aquí podemos ver una pequeña demostración de uso:
 
 
 https://github.com/NereaRiveiro/Go-vegan-/assets/126264593/9dd26ed7-0c1b-4eef-b260-7150e27e14fc
