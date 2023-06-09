@@ -52,7 +52,7 @@ Este primer prototipo ha generado la ambición necesaria para continuar el proye
 - Completar la base de datos con más alimentos.
 - Añadir más filtros personalizados para analizar el consumo del usuario.
 - Continuar la sección de recomendaciones con datos de tal forma que según parámetros genere un principio de cambio de dieta.
-- Continuar perfeccionando la web para que quede limpia y bonita.
+- Seguir perfeccionando la web para que quede limpia y bonita.
 
 
 ## 🍍 Estructura:<a name="estructura"/>
