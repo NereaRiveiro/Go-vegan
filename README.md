@@ -1,6 +1,6 @@
 # Go vegan?
 
-## Proyecto de análisis y visualización de datos
+## ETL y visualización de datos
 
 ![Alt text](images/streamlit/logof.png)
 
@@ -15,7 +15,7 @@
 
 ## 🥦 Descripción:<a name="descripcion"/>
 
-Proyecto final de análisis y visualización como Data Analyst en Ironhack. 
+Proyecto ETL y visualización como Data Analyst en Ironhack. 
 
 Con este proyecto se propone la práctica del proceso de análisis de datos. Para ello hemos creado una web interactiva mediante la que el usuario puede medir su impacto ecológico según su alimentación.
 
@@ -25,7 +25,7 @@ Para poder acceder a la web dejamos el siguiente enlace:
 
 ## 🍑 Objetivo:<a name="objetivo"/>
 
-El cambio climático es una preocupación constante en el panorama actual, vemos cómo las consecuencias marcan nuestro día a día y está en nuestras manos el cambio. Por ello, nos hemos planteado las siguientes duadas:
+El cambio climático es una preocupación constante en el panorama actual, vemos cómo las consecuencias marcan nuestro día a día y está en nuestras manos el cambio. Así, nos hemos planteado las siguientes duadas:
 
 - ¿La dieta influye en nuestro impacto?
 - ¿Qué alimentos son más dañinos para el medioambiente?
@@ -36,10 +36,12 @@ El cambio climático es una preocupación constante en el panorama actual, vemos
 
 ## 🥑 Visualización:<a name="visualizacion"/>
 
-He usado Streamlit como herramienta para crear una web mediante la cual el usuario pueda ir personalizando la búsqueda de información a su criterio y darle paso a que genere sus propias conclusiones. 
+Hemos usado Streamlit como herramienta para crear una web mediante la cual el usuario pueda ir personalizando la búsqueda de información a su criterio y darle paso a que genere sus propias conclusiones. 
 
 A continuación dejo una demostración:
 
+
+https://github.com/NereaRiveiro/Go-vegan-/assets/126264593/9dd26ed7-0c1b-4eef-b260-7150e27e14fc
 
 
 
