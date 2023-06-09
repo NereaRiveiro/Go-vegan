@@ -6,14 +6,14 @@
 
 ## Índice
 
-1. [🗺️ Descripción](#descripcion)
-2. [🏔️ Objetivo](#objetivo)
-3. [🌀 Análisis y visualización](#analisis)
-4. [🧗‍♀️ Próximos pasos](#pasos)
-5. [🧊 Estructura](#estructura)
+1. [🥦 Descripción](#descripcion)
+2. [🍑 Objetivo](#objetivo)
+3. [🥑 Visualización](#visualizacion)
+4. [🌶️ Próximos pasos](#pasos)
+5. [🍍 Estructura](#estructura)
 
 
-## 🗺️ Descripción:<a name="descripcion"/>
+## 🥦 Descripción:<a name="descripcion"/>
 
 Proyecto final de análisis y visualización como Data Analyst en Ironhack. 
 
@@ -23,7 +23,7 @@ Para poder acceder a la web dejamos el siguiente enlace:
 
 [Website Go vegan?](https://nereariveiro-go-vegan--streamlitmain-ky4jxb.streamlit.app/)
 
-## 🏔️ Objetivo:<a name="objetivo"/>
+## 🍑 Objetivo:<a name="objetivo"/>
 
 El cambio climático es una preocupación constante en el panorama actual, vemos cómo las consecuencias marcan nuestro día a día y está en nuestras manos el cambio. Por ello, nos hemos planteado las siguientes duadas:
 
@@ -34,7 +34,7 @@ El cambio climático es una preocupación constante en el panorama actual, vemos
 - ¿Cuáles son los alimentos que más recursos gastan?
 
 
-## 🌀 Visualización:<a name="analisis"/>
+## 🥑 Visualización:<a name="visualizacion"/>
 
 He usado Streamlit como herramienta para crear una web mediante la cual el usuario pueda ir personalizando la búsqueda de información a su criterio y darle paso a que genere sus propias conclusiones. 
 
@@ -43,7 +43,7 @@ A continuación dejo una demostración:
 
 
 
-## 🧗‍♀️ Próximos pasos:<a name='pasos'/>
+## 🌶️ Próximos pasos:<a name='pasos'/>
 
 Este primer prototipo ha generado la ambición necesaria para continuar el proyecto. El camino lleva a:
 
@@ -53,7 +53,7 @@ Este primer prototipo ha generado la ambición necesaria para continuar el proye
 - Continuar perfeccionando la web para que quede limpia y bonita.
 
 
-## 🧊 Estructura:<a name="estructura"/>
+## 🍍 Estructura:<a name="estructura"/>
 
 ```
 Proyecto 
